@@ -157,7 +157,7 @@
 
                       var text = document.createElement('div');
                           text.className = node.status
-                          text.innerText = "nodeID: " + node.userID + " x: " + node.x + "/" + node.mX + " y: " + node.y + "/" + node.mY + " amen clicked: " + node.amenClicked;
+                          text.innerText = "nodeID: " + node.userID + " x: " + node.x + "/" + node.mX + " = " + ratioWidth(node.x, node.mX) + " y: " + node.y + "/" + node.mY + " = " + ratioHeight(node.y, node.mY) + " amen clicked: " + node.amenClicked;
                       var item = document.createElement('li');
                           item.id = nodeID;
                           item.appendChild(text);
