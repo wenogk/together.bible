@@ -183,7 +183,6 @@
           }
           let isAmenPlaying = false;
           function playAmenSound() {
-            alert("amen")
             if(!isAmenPlaying) {
 
               isAmenPlaying = true;
@@ -191,10 +190,11 @@
               audio.play();
               audio.addEventListener("ended", function(){
                isAmenPlaying = false;
+               isAmenClicked = false;
               });
             }
-            isAmenClicked = false;
-            addNewLocalCursor(randomUserID, widthToRatio(curX), heightToRatio(curY), randomColor, isAmenClicked)
+            // isAmenClicked = false;
+            // addNewLocalCursor(randomUserID, widthToRatio(curX), heightToRatio(curY), randomColor, isAmenClicked)
           }
 
     </script>
