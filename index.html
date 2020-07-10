@@ -111,6 +111,7 @@
 <script src="https://cdn.jsdelivr.net/npm/gun/lib/radisk.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gun/lib/store.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gun/lib/rindexed.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gun/lib/bye.js"></script>
     <script>
 
 
@@ -166,10 +167,10 @@
         };
         function deleteCursorNode(nodeID) {
           function removeElement(id) {
-
             var elem = document.getElementById(id);
             if(elem) {
-            return elem.parentNode.removeChild(elem);
+              elem.style.display = "none";
+            //return elem.parentNode.removeChild(elem);
             }
         }
           console.log("deleting " + nodeID)
@@ -197,13 +198,16 @@
             for (let [nodeID, node] of Object.entries(todos)) {
                 if (node !== null) {
                     let timeNow = Math.floor(Date.now() / 1000);
+                    gunAppGraph.get(nodeID).bye().put(null);
                     if((timeNow-node.lastUpdated)>5 || (node.lastUpdated == null)) {
                       deleteCursorNode(nodeID);
                     } else {
                       //randomColor
                       var cursorExisting = document.getElementById(nodeID);
                       if(cursorExisting) {
+                        alert("exists")
                         debugText("cursor exists")
+                        cursorExisting.style.display = "block";
                         cursorExisting.style.top = node.y;
                         cursorExisting.style.left = node.x;
                       } else {
@@ -211,6 +215,7 @@
                         var vCursor = document.createElement('div');
                         vCursor.className = "virtualCursor";
                         vCursor.id = nodeID;
+                        vCursor.style.display = "block";
                         vCursor.style.background = node.color;
                         vCursor.style.top = node.y;
                         vCursor.style.left = node.x;
