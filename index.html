@@ -58,6 +58,7 @@
           window.crypto.getRandomValues(arr)
           return Array.from(arr, dec2hex).join('')
         }
+        let amenClicked = false;
         let curX = 0;
         let curY = 0;
         let randomUserID = "9999999";
@@ -102,10 +103,10 @@
         };
 
         gunAppGraph.map().on(function(node, nodeID){
-            console.log(`${nodeID} was updated! Updating local data...`);
             localData[nodeID] = node;
             renderList(localData);
         });
+
         function ratioToWidth(val) {
           return val*window.innerWidth;
         }
@@ -173,11 +174,12 @@
             //console.log("mouse move")
             curX = e.clientX;
             curY = e.clientY;
-            addNewLocalCursor(randomUserID, widthToRatio(curX), heightToRatio(curY), randomColor, false)
+            addNewLocalCursor(randomUserID, widthToRatio(curX), heightToRatio(curY), randomColor, amenClicked)
           });
 
           function amenClicked() {
-            addNewLocalCursor(randomUserID, widthToRatio(curX), heightToRatio(curY), randomColor, true)
+            amenClicked = true;
+            addNewLocalCursor(randomUserID, widthToRatio(curX), heightToRatio(curY), randomColor, amenClicked)
           }
           let isAmenPlaying = false;
           function playAmenSound() {
@@ -189,8 +191,8 @@
                isAmenPlaying = false;
               });
             }
-
-            addNewLocalCursor(randomUserID, widthToRatio(curX), heightToRatio(curY), randomColor, false)
+            amenClicked = false;
+            addNewLocalCursor(randomUserID, widthToRatio(curX), heightToRatio(curY), randomColor, amenClicked)
           }
 
     </script>
