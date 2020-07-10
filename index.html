@@ -190,7 +190,9 @@
 
               isAmenPlaying = true;
               var audio = new Audio('amen2.mp3');
-              audio.play();
+              setTimeout(function() {
+                audio.play();
+              }, 100);
               audio.addEventListener("ended", function(){
                isAmenPlaying = false;
                isAmenClicked = false;
