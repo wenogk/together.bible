@@ -176,6 +176,7 @@
             curY = e.clientY;
             addNewLocalCursor(randomUserID, widthToRatio(curX), heightToRatio(curY), randomColor, isAmenClicked)
           });
+
           let isCurrentUserClickingAmen = false;
           function amenClicked() {
             isAmenClicked = true;
@@ -194,11 +195,11 @@
                isAmenClicked = false;
               });
             }
-            if(isCurrentUserClickingAmen) {
-              isAmenClicked = false;
-              isCurrentUserClickingAmen = false;
-              addNewLocalCursor(randomUserID, widthToRatio(curX), heightToRatio(curY), randomColor, isAmenClicked)
-            }
+            // if(isCurrentUserClickingAmen) {
+            //   isAmenClicked = false;
+            //   isCurrentUserClickingAmen = false;
+            //   addNewLocalCursor(randomUserID, widthToRatio(curX), heightToRatio(curY), randomColor, isAmenClicked)
+            // }
             // isAmenClicked = false;
             // addNewLocalCursor(randomUserID, widthToRatio(curX), heightToRatio(curY), randomColor, isAmenClicked)
           }
