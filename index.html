@@ -3,7 +3,7 @@
     <meta charset="UTF-8">
     <style>
       .virtualCursor {
-        position: absolute;
+        position: fixed;
         top: 20%;
         left: 20%;
         z-index: 99;
@@ -17,9 +17,7 @@
     </style>
 </head>
 <body id="bodyHolder">
-    <div class="virtualCursor"></div>
-    <h1>Todo App</h1>
-    <input onchange="addTodo(this)" type="text">
+    <!-- <div class="virtualCursor"></div> -->
     <ul id="todoList">
     </ul>
 
@@ -31,8 +29,8 @@
     <script>
 
 
-        var gun = Gun(['https://gun-us.herokuapp.com/gun','https://gun-eu.herokuapp.com/gun']);
-        var gunAppGraph = gun.get('todos');
+        var gun = Gun(['https://mvp-gun.herokuapp.com/gun', 'https://e2eec.herokuapp.com/gun','https://gun-us.herokuapp.com/gun','https://gun-eu.herokuapp.com/gun']);
+        var gunAppGraph = gun.get('cursors-bible-together');
         var localData = {};
          //start cursor stuff
          function dec2hex (dec) {
@@ -50,21 +48,43 @@
         let curX = 0;
         let curY = 0;
         let randomUserID = "9999999";
+        var randomColor = "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);});
         if (localStorage.getItem("userID") === null) {
           randomUserID = generateId(10);
           window.localStorage.setItem('userID', randomUserID);
         } else {
           randomUserID = window.localStorage.getItem('userID');
         }
-
+        console.log("LOGGED IN USERID" + randomUserID)
+        //alert(randomUserID)
 
         let firstTime = true;
         //end cursor stuff
-        function addNewLocalCursor(nodeID,x, y) {
-            gunAppGraph.get(nodeID).put({x: x, y: y,status: 'active'});
+        function addNewLocalCursor(nodeID,x, y, color) {
+            let timeNow = Math.floor(Date.now() / 1000);
+            let data = {
+              userID: nodeID,
+              x: x,
+              y: y,
+              lastUpdated: timeNow,
+              color: color,
+              status: 'active'
+            };
+            console.log("new Data: " + JSON.stringify(data))
+            gunAppGraph.get(nodeID).put(data);
+            //gunAppGraph.set(data);
         };
-        function modifyNewLocalCursor(nodeID,x, y) {
-            gunAppGraph.get(nodeID).put({x: x, y: y,status: 'active'});
+        function deleteCursorNode(nodeID) {
+          function removeElement(id) {
+
+            var elem = document.getElementById(id);
+            if(elem) {
+            return elem.parentNode.removeChild(elem);
+            }
+        }
+          console.log("deleting " + nodeID)
+            removeElement(nodeID);
+            gunAppGraph.get(nodeID).put(null);
         };
 
         function addTodo(element) {
@@ -82,22 +102,41 @@
 
         function renderList(todos) {
             console.log('re-rendering UI...');
-            var todoList = document.getElementById("todoList");
+            var c = document.getElementById("todoList");
             todoList.innerHTML = '';
             for (let [nodeID, node] of Object.entries(todos)) {
                 if (node !== null) {
-                    console.log('rendering this object');
-                    console.log(node.thing);
-                    var text = document.createElement('div');
-                        text.className = node.status
-                        text.innerText = "x: " + node.x + "y: " + node.y;
-                    var item = document.createElement('li');
-                        item.id = nodeID;
-                        item.appendChild(text);
-                    todoList.appendChild(item);
-                    let vC = document.querySelector('.virtualCursor')
-                    vC.style.top = node.y;
-                    vC.style.left = node.x;
+                    let timeNow = Math.floor(Date.now() / 1000);
+                    if((timeNow-node.lastUpdated)>5 || (node.lastUpdated == null)) {
+                      deleteCursorNode(nodeID);
+                    } else {
+                      //randomColor
+                      var cursorExisting = document.getElementById(nodeID);
+                      if(cursorExisting) {
+                        cursorExisting.style.top = node.y;
+                        cursorExisting.style.left = node.x;
+                      } else {
+                        var vCursor = document.createElement('div');
+                        vCursor.className = "virtualCursor";
+                        vCursor.id = nodeID;
+                        vCursor.style.background = node.color;
+                        vCursor.style.top = node.y;
+                        vCursor.style.left = node.x;
+                        todoList.appendChild(vCursor);
+                      }
+
+
+                      // var text = document.createElement('div');
+                      //     text.className = node.status
+                      //     text.innerText = "nodeID: " + node.userID + " x: " + node.x + " y: " + node.y;
+                      // var item = document.createElement('li');
+                      //     item.id = nodeID;
+                      //     item.appendChild(text);
+                      // todoList.appendChild(item);
+                      // let vC = document.querySelector('.virtualCursor')
+                      // vC.style.top = node.y;
+                      // vC.style.left = node.x;
+                    }
                 }
             }
         }
@@ -123,13 +162,15 @@
             console.log(`tombstoning "${nodeID}" in gun graph...`);
             gunAppGraph.get(nodeID).put(null);
         }
+          document.getElementById('bodyHolder').addEventListener('mousemove', e => {
+            //console.log("mouse move")
+            curX = e.clientX;
+            curY = e.clientY;
+            addNewLocalCursor(randomUserID,curX, curY, randomColor)
+          });
 
-        document.getElementById('bodyHolder').addEventListener('mousemove', e => {
-          curX = e.clientX;
-          curY = e.clientY;
-          addNewLocalCursor(randomUserID,curX, curY)
 
-        });
+
 
     </script>
 </body>
