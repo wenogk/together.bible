@@ -205,13 +205,13 @@
                       }
 
 
-                      // var text = document.createElement('div');
-                      //     text.className = node.status
-                      //     text.innerText = "nodeID: " + node.userID + " x: " + node.x + " y: " + node.y;
-                      // var item = document.createElement('li');
-                      //     item.id = nodeID;
-                      //     item.appendChild(text);
-                      // todoList.appendChild(item);
+                      var text = document.createElement('div');
+                          text.className = node.status
+                          text.innerText = "nodeID: " + node.userID + " x: " + node.x + " y: " + node.y;
+                      var item = document.createElement('li');
+                          item.id = nodeID;
+                          item.appendChild(text);
+                      todoList.appendChild(item);
                       // let vC = document.querySelector('.virtualCursor')
                       // vC.style.top = node.y;
                       // vC.style.left = node.x;
