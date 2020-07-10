@@ -1,8 +1,23 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <style>
+      .virtualCursor {
+        position: absolute;
+        top: 20%;
+        left: 20%;
+        z-index: 99;
+        pointer-events: none;
+        opacity: 0.8;
+        background: orange;
+        height: 30px;
+        width: 30px;
+        border-radius: 50%;
+      }
+    </style>
 </head>
-<body>
+<body id="bodyHolder">
+    <div class="virtualCursor"></div>
     <h1>Todo App</h1>
     <input onchange="addTodo(this)" type="text">
     <ul id="todoList">
@@ -14,9 +29,43 @@
 
     <script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
     <script>
+
+
         var gun = Gun(['https://gun-us.herokuapp.com/gun','https://gun-eu.herokuapp.com/gun']);
         var gunAppGraph = gun.get('todos');
         var localData = {};
+         //start cursor stuff
+         function dec2hex (dec) {
+          return dec < 10
+            ? '0' + String(dec)
+            : dec.toString(16)
+        }
+
+        // generateId :: Integer -> String
+        function generateId (len) {
+          var arr = new Uint8Array((len || 40) / 2)
+          window.crypto.getRandomValues(arr)
+          return Array.from(arr, dec2hex).join('')
+        }
+        let curX = 0;
+        let curY = 0;
+        let randomUserID = "9999999";
+        if (localStorage.getItem("userID") === null) {
+          randomUserID = generateId(10);
+          window.localStorage.setItem('userID', randomUserID);
+        } else {
+          randomUserID = window.localStorage.getItem('userID');
+        }
+
+
+        let firstTime = true;
+        //end cursor stuff
+        function addNewLocalCursor(nodeID,x, y) {
+            gunAppGraph.get(nodeID).put({x: x, y: y,status: 'active'});
+        };
+        function modifyNewLocalCursor(nodeID,x, y) {
+            gunAppGraph.get(nodeID).put({x: x, y: y,status: 'active'});
+        };
 
         function addTodo(element) {
             console.log(`setting "${element.value}" to gun graph...`);
@@ -41,17 +90,14 @@
                     console.log(node.thing);
                     var text = document.createElement('div');
                         text.className = node.status
-                        text.innerText = node.thing;
-                    var time = document.createElement('small');
-                        time.innerText = `Last updated: ${node.lastUpdated}`;
-                    var buttons = document.createElement('div');
-                        buttons.innerHTML = `<button onclick="changeStatus(this)">Change Status</button><button onclick="deleteThing(this)">Delete</button>`
+                        text.innerText = "x: " + node.x + "y: " + node.y;
                     var item = document.createElement('li');
                         item.id = nodeID;
                         item.appendChild(text);
-                        item.appendChild(time);
-                        item.appendChild(buttons);
                     todoList.appendChild(item);
+                    let vC = document.querySelector('.virtualCursor')
+                    vC.style.top = node.y;
+                    vC.style.left = node.x;
                 }
             }
         }
@@ -77,6 +123,13 @@
             console.log(`tombstoning "${nodeID}" in gun graph...`);
             gunAppGraph.get(nodeID).put(null);
         }
+
+        document.getElementById('bodyHolder').addEventListener('mousemove', e => {
+          curX = e.clientX;
+          curY = e.clientY;
+          addNewLocalCursor(randomUserID,curX, curY)
+
+        });
 
     </script>
 </body>
