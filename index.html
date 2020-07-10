@@ -58,7 +58,7 @@
           window.crypto.getRandomValues(arr)
           return Array.from(arr, dec2hex).join('')
         }
-        let amenClicked = false;
+        let isAmenClicked = false;
         let curX = 0;
         let curY = 0;
         let randomUserID = "9999999";
@@ -174,12 +174,12 @@
             //console.log("mouse move")
             curX = e.clientX;
             curY = e.clientY;
-            addNewLocalCursor(randomUserID, widthToRatio(curX), heightToRatio(curY), randomColor, amenClicked)
+            addNewLocalCursor(randomUserID, widthToRatio(curX), heightToRatio(curY), randomColor, isAmenClicked)
           });
 
           function amenClicked() {
-            amenClicked = true;
-            addNewLocalCursor(randomUserID, widthToRatio(curX), heightToRatio(curY), randomColor, amenClicked)
+            isAmenClicked = true;
+            addNewLocalCursor(randomUserID, widthToRatio(curX), heightToRatio(curY), randomColor, isAmenClicked)
           }
           let isAmenPlaying = false;
           function playAmenSound() {
@@ -191,8 +191,8 @@
                isAmenPlaying = false;
               });
             }
-            amenClicked = false;
-            addNewLocalCursor(randomUserID, widthToRatio(curX), heightToRatio(curY), randomColor, amenClicked)
+            isAmenClicked = false;
+            addNewLocalCursor(randomUserID, widthToRatio(curX), heightToRatio(curY), randomColor, isAmenClicked)
           }
 
     </script>
