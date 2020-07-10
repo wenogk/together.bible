@@ -112,7 +112,18 @@
             localData[nodeID] = node;
             renderList(localData);
         });
-
+        function ratioToWidth(val) {
+          return val*window.innerWidth;
+        }
+        function widthToRatio(val) {
+          return (val/window.innerWidth)*1;
+        }
+        function ratioToHeight(val) {
+          return val*window.innerHeight;
+        }
+        function heightToRatio(val) {
+          return (val/window.innerHeight)*1;
+        }
         function renderList(todos) {
             console.log('re-rendering UI...');
             var c = document.getElementById("todoList");
@@ -129,8 +140,8 @@
                       if(cursorExisting) {
                         debugText("cursor exists")
                         cursorExisting.style.display = "block";
-                        cursorExisting.style.top = node.y;
-                        cursorExisting.style.left = node.x;
+                        cursorExisting.style.top = ratioToHeight(node.y);
+                        cursorExisting.style.left = ratioToWidth(node.x);
                       } else {
                         debugText("cursor doesnt exist so created")
                         var vCursor = document.createElement('div');
@@ -138,8 +149,8 @@
                         vCursor.id = nodeID;
                         vCursor.style.display = "block";
                         vCursor.style.background = node.color;
-                        vCursor.style.top = node.y;
-                        vCursor.style.left = node.x;
+                        vCursor.style.top = ratioToHeight(node.y);
+                        vCursor.style.left = ratioToWidth(node.x);
                         todoList.appendChild(vCursor);
                       }
 
@@ -184,7 +195,7 @@
             //console.log("mouse move")
             curX = e.clientX;
             curY = e.clientY;
-            addNewLocalCursor(randomUserID,curX, curY, randomColor)
+            addNewLocalCursor(randomUserID, widthToRatio(curX), heightToRatio(curY), randomColor)
           });
 
 
