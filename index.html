@@ -179,9 +179,17 @@
           function amenClicked() {
             addNewLocalCursor(randomUserID, widthToRatio(curX), heightToRatio(curY), randomColor, true)
           }
+          let isAmenPlaying = false;
           function playAmenSound() {
-            var audio = new Audio('amen.mp3');
-            audio.play();
+            if(!isAmenPlaying) {
+              isAmenPlaying = true;
+              var audio = new Audio('amen.mp3');
+              audio.play();
+              audio.addEventListener("ended", function(){
+               isAmenPlaying = false;
+              });
+            }
+
             addNewLocalCursor(randomUserID, widthToRatio(curX), heightToRatio(curY), randomColor, false)
           }
 
