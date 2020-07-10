@@ -73,7 +73,7 @@
 
         let firstTime = true;
         //end cursor stuff
-        function addNewLocalCursor(nodeID,x, y, color) {
+        function addNewLocalCursor(nodeID,x, y, color, amenClicked = false) {
             let timeNow = Math.floor(Date.now() / 1000);
             let data = {
               userID: nodeID,
@@ -81,7 +81,8 @@
               y: y,
               lastUpdated: timeNow,
               color: color,
-              status: 'active'
+              status: 'active',
+              amenClicked: amenClicked
             };
             console.log("new Data: " + JSON.stringify(data))
             gunAppGraph.get(nodeID).put(data);
@@ -98,13 +99,6 @@
           console.log("deleting " + nodeID)
             removeElement(nodeID);
             gunAppGraph.get(nodeID).put(null);
-        };
-
-        function addTodo(element) {
-            console.log(`setting "${element.value}" to gun graph...`);
-            var date = new Date();
-            gunAppGraph.set({thing: element.value, lastUpdated: date.toString(),status: 'active'});
-            element.value = '';
         };
 
         gunAppGraph.map().on(function(node, nodeID){
@@ -137,6 +131,7 @@
                     } else {
                       //randomColor
                       var cursorExisting = document.getElementById(nodeID);
+
                       if(cursorExisting) {
                         debugText("cursor exists")
                         cursorExisting.style.display = "block";
@@ -154,10 +149,13 @@
                         todoList.appendChild(vCursor);
                       }
 
+                      if(node.amenClicked) {
+                        playAmenSound();
+                      }
 
                       var text = document.createElement('div');
                           text.className = node.status
-                          text.innerText = "nodeID: " + node.userID + " x: " + node.x + " y: " + node.y;
+                          text.innerText = "nodeID: " + node.userID + " x: " + node.x + " y: " + node.y + " amen clicked: " + node.amenClicked;
                       var item = document.createElement('li');
                           item.id = nodeID;
                           item.appendChild(text);
@@ -170,37 +168,24 @@
             }
         }
 
-        function changeStatus(element) {
-            var parent = element.parentElement.parentElement;
-            var text = parent.firstElementChild;
-            var nodeID = parent.id;
-            console.log(`changing status of "${nodeID}" in gun graph...`);
-            if (text.classList.contains('completed')) {
-                var date = new Date();
-                gunAppGraph.get(nodeID).put({status: 'active', lastUpdated: date.toString()});
-            } else {
-                var date = new Date();
-                gunAppGraph.get(nodeID).put({status: 'completed', lastUpdated: date.toString()});
-            }
-        }
 
-        function deleteThing(element) {
-            var parent = element.parentElement.parentElement;
-            var text = parent.firstElementChild;
-            var nodeID = parent.id;
-            console.log(`tombstoning "${nodeID}" in gun graph...`);
-            gunAppGraph.get(nodeID).put(null);
-        }
           document.getElementById('bodyHolder').addEventListener('mousemove', e => {
             //console.log("mouse move")
             curX = e.clientX;
             curY = e.clientY;
-            addNewLocalCursor(randomUserID, widthToRatio(curX), heightToRatio(curY), randomColor)
+            addNewLocalCursor(randomUserID, widthToRatio(curX), heightToRatio(curY), randomColor, false)
           });
 
-
-
+          function amenClicked() {
+            addNewLocalCursor(randomUserID, widthToRatio(curX), heightToRatio(curY), randomColor, true)
+          }
+          function playAmenSound() {
+            var audio = new Audio('https://interactive-examples.mdn.mozilla.net/media/examples/t-rex-roar.mp3');
+            audio.play();
+            addNewLocalCursor(randomUserID, widthToRatio(curX), heightToRatio(curY), randomColor, false)
+          }
 
     </script>
+    <button onclick="amenClicked()">Amen</button>
 </body>
 </html>
