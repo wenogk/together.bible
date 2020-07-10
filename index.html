@@ -97,7 +97,9 @@
 </head>
 <body id="bodyHolder">
     <!-- <div class="virtualCursor"></div> -->
+<li>Debugger: <span id="debugText"></span></li>
     <ul id="todoList">
+
     </ul>
 
     <style>
@@ -119,6 +121,11 @@
         }
 
         // generateId :: Integer -> String
+        function debugText(text) {
+          var elem = document.getElementById("debugText");
+          elem.innerHTML = text;
+        }
+
         function generateId (len) {
           var arr = new Uint8Array((len || 40) / 2)
           window.crypto.getRandomValues(arr)
@@ -192,9 +199,11 @@
                       //randomColor
                       var cursorExisting = document.getElementById(nodeID);
                       if(cursorExisting) {
+                        debugText("cursor exists")
                         cursorExisting.style.top = node.y;
                         cursorExisting.style.left = node.x;
                       } else {
+                        debugText("cursor doesnt exist so created")
                         var vCursor = document.createElement('div');
                         vCursor.className = "virtualCursor";
                         vCursor.id = nodeID;
