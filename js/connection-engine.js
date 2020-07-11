@@ -93,6 +93,7 @@
                     connectionEngineGraph.get(nodeID).bye().put(null);
                     if((timeNow-node.lastUpdated)>5 || (node.lastUpdated == null)) {
                       deleteCursorNode(nodeID);
+                      countUsersConnected -= 1;
                     } else {
                       //randomColor
                       var cursorExisting = document.getElementById(nodeID);
