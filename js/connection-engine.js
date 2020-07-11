@@ -104,7 +104,7 @@
                         cursorExisting.style.top = ratioHeight(node.y, node.mY);
                         cursorExisting.style.left = ratioWidth(node.x, node.mX);
 
-                        // document.getElementById("debug-" + nodeID).innerText = debugText;
+                        document.getElementById("debug-" + nodeID).innerText = debugText;
                       } else {
                         var vCursor = document.createElement('div');
                         vCursor.className = "virtualCursor";
