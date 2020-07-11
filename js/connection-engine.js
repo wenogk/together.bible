@@ -96,10 +96,8 @@
                     } else {
                       //randomColor
                       var cursorExisting = document.getElementById(nodeID);
-                      console.log("contains? " + document.body.contains(cursorExisting))
                       let debugText = "nodeID: " + node.userID + " x: " + node.x + "/" + node.mX + " = " + ratioWidth(node.x, node.mX) + " y: " + node.y + "/" + node.mY + " = " + ratioHeight(node.y, node.mY) + " amen clicked: " + node.amenClicked;
                       if(document.body.contains(cursorExisting)) {
-                        console.log(" HERE PLS")
                         cursorExisting.style.display = "block";
                         cursorExisting.style.top = ratioHeight(node.y, node.mY);
                         cursorExisting.style.left = ratioWidth(node.x, node.mX);
