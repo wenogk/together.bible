@@ -1,7 +1,7 @@
 
     //,'https://gun-us.herokuapp.com/gun','https://gun-eu.herokuapp.com/gun'
         var gun = Gun(['https://mvp-gun.herokuapp.com/gun', 'https://e2eec.herokuapp.com/gun']);
-        var gunAppGraph = gun.get('cursors-bible-together');
+        var connectionEngineGraph = gun.get('together.bible.cursors');
         var localData = {};
          //start cursor stuff
          function dec2hex (dec) {
@@ -47,24 +47,25 @@
               mY: mY,
               amenClicked: amenClicked
             };
-            console.log("new Data: " + JSON.stringify(data))
-            gunAppGraph.get(nodeID).put(data);
-            //gunAppGraph.set(data);
+            //console.log("new Data: " + JSON.stringify(data))
+            connectionEngineGraph.get(nodeID).put(data);
+            //console.log("localData: " + JSON.stringify(localData))
+            //connectionEngineGraph.set(data);
         };
         function deleteCursorNode(nodeID) {
           function removeElement(id) {
             var elem = document.getElementById(id);
             if(elem) {
               elem.style.display = "none";
-            //return elem.parentNode.removeChild(elem);
+              //return elem.parentNode.removeChild(elem);
             }
         }
           console.log("deleting " + nodeID)
             removeElement(nodeID);
-            gunAppGraph.get(nodeID).put(null);
+            connectionEngineGraph.get(nodeID).put(null);
         };
 
-        gunAppGraph.map().on(function(node, nodeID){
+        connectionEngineGraph.map().on(function(node, nodeID){
             localData[nodeID] = node;
             renderList(localData);
         });
@@ -81,26 +82,29 @@
           }
           return val;
         }
+        
         function renderList(todos) {
             console.log('re-rendering cursors...');
             var cursorsHolder = document.getElementById("cursorsHolder");
             for (let [nodeID, node] of Object.entries(todos)) {
                 if (node !== null) {
                     let timeNow = Math.floor(Date.now() / 1000);
-                    gunAppGraph.get(nodeID).bye().put(null);
+                    connectionEngineGraph.get(nodeID).bye().put(null);
                     if((timeNow-node.lastUpdated)>5 || (node.lastUpdated == null)) {
                       deleteCursorNode(nodeID);
                     } else {
                       //randomColor
                       var cursorExisting = document.getElementById(nodeID);
-
+                      console.log("contains? " + document.body.contains(cursorExisting))
+                      let debugText = "nodeID: " + node.userID + " x: " + node.x + "/" + node.mX + " = " + ratioWidth(node.x, node.mX) + " y: " + node.y + "/" + node.mY + " = " + ratioHeight(node.y, node.mY) + " amen clicked: " + node.amenClicked;
                       if(document.body.contains(cursorExisting)) {
-                        debugText("cursor exists")
+                        console.log(" HERE PLS")
                         cursorExisting.style.display = "block";
                         cursorExisting.style.top = ratioHeight(node.y, node.mY);
                         cursorExisting.style.left = ratioWidth(node.x, node.mX);
+
+                        document.getElementById("debug-" + nodeID).innerText = debugText;
                       } else {
-                        debugText("cursor doesnt exist so created")
                         var vCursor = document.createElement('div');
                         vCursor.className = "virtualCursor";
                         vCursor.id = nodeID;
@@ -109,19 +113,19 @@
                         vCursor.style.top = ratioHeight(node.y, node.mY);
                         vCursor.style.left = ratioWidth(node.x, node.mX);
                         cursorsHolder.appendChild(vCursor);
+                        //debugging
+                        var text = document.createElement('div');
+                            text.id = "debug-" + nodeID;
+                            text.className = node.status
+                            text.innerText = debugText;
+                        var item = document.createElement('li');
+                            item.appendChild(text);
+                        cursorsHolder.appendChild(item);
                       }
 
                       if(node.amenClicked) {
                         playAmenSound();
                       }
-
-                      var text = document.createElement('div');
-                          text.className = node.status
-                          text.innerText = "nodeID: " + node.userID + " x: " + node.x + "/" + node.mX + " = " + ratioWidth(node.x, node.mX) + " y: " + node.y + "/" + node.mY + " = " + ratioHeight(node.y, node.mY) + " amen clicked: " + node.amenClicked;
-                      var item = document.createElement('li');
-                          item.id = nodeID;
-                          item.appendChild(text);
-                      cursorsHolder.appendChild(item);
                     }
                 }
             }
