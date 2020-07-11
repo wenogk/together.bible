@@ -10,3 +10,9 @@
   width: 30px;
   border-radius: 50%;
 }
+
+.amenButton {
+  position: fixed;
+  top:2px;
+  left: 2px;
+}
