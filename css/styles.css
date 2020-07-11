@@ -24,3 +24,21 @@
 #bodyContent {
   background: rgb(0,0,0,0,3);
 }
+
+.languageItemHolder {
+  background: #64ffda;
+  border-radius: 4px;
+}
+.grid:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+.grid-item {
+  width: 30%;
+  float: left;
+  background: #64ffda;
+  border: 2px solid #333;
+  border-color: hsla(0, 0%, 0%, 0.5);
+  border-radius: 5px;
+ }

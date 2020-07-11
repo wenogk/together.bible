@@ -11,6 +11,54 @@
     <button class="btn btn-primary btn-lg amenButton" onclick="amenClicked()" data-toggle="tooltip" data-placement="right" title="This will send a sound to everyone online!">Amen</button>
     <div id="cursorsHolder"></div>
     <ul id="debugger"></ul>
+    <div class="row">
+      <div class="col">
+        <div class="btn-group">
+          <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+            Language
+          </button>
+          <ul class="dropdown-menu" id="bible-language-list">
+          </ul>
+        </div>
+      </div>
+      <div class="col">
+        <div class="btn-group">
+          <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+            Version
+          </button>
+          <ul class="dropdown-menu" id="bible-version-list"></ul>
+        </div>
+      </div>
+      <div class="col">
+        <div class="btn-group">
+          <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+            Book
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Separated link</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col">
+        <div class="btn-group">
+          <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+            Chapter
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Separated link</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- <div id="bible-language-list" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 200 }'></div> -->
     </div>
 <!-- Modal -->
 <div class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-hidden="true" id="initialModal" aria-labelledby="initialModalLabel" >
@@ -35,6 +83,7 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/gun/lib/radix.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gun/lib/radisk.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gun/lib/store.js"></script>
@@ -42,6 +91,7 @@
     <script src="https://cdn.jsdelivr.net/npm/gun/lib/bye.js"></script>
     <script src="js/main.js"></script>
     <script src="js/connection-engine.js"></script>
+    <script src="js/bible.js"></script>
 
   </body>
 </html>
