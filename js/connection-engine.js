@@ -132,7 +132,8 @@
                 }
             }
             updateConnectedCount();
-            document.getElementById("connectedCount").innerText = countUsersConnected;
+            let textCount = (countUsersConnected > 1) ? countUsersConnected + " people reading God's word right now." : "It's just you and God's word right now.";
+            document.getElementById("connectedCount").innerText = textCount;
         }
 
           let isCurrentUserClickingAmen = false;
