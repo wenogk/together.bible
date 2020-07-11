@@ -115,13 +115,13 @@
                         vCursor.style.left = ratioWidth(node.x, node.mX);
                         document.getElementById("cursorsHolder").appendChild(vCursor);
                         //debugging
-                        // var text = document.createElement('div');
-                        //     text.id = "debug-" + nodeID;
-                        //     text.className = node.status
-                        //     text.innerText = debugText;
-                        // var item = document.createElement('li');
-                        //     item.appendChild(text);
-                        // cursorsHolder.appendChild(item);
+                        var text = document.createElement('div');
+                            text.id = "debug-" + nodeID;
+                            text.className = node.status
+                            text.innerText = debugText;
+                        var item = document.createElement('li');
+                            item.appendChild(text);
+                        cursorsHolder.appendChild(item);
                       }
 
                       if(node.amenClicked) {
