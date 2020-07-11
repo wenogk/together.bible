@@ -14,7 +14,7 @@
     <div class="row">
       <div class="col">
         <div class="btn-group">
-          <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+          <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false" id="languageSelectButton">
             Language
           </button>
           <ul class="dropdown-menu" id="bible-language-list">
@@ -23,7 +23,7 @@
       </div>
       <div class="col">
         <div class="btn-group">
-          <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+          <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false" id="versionSelectButton">
             Version
           </button>
           <ul class="dropdown-menu" id="bible-version-list"></ul>
@@ -31,35 +31,26 @@
       </div>
       <div class="col">
         <div class="btn-group">
-          <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+          <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false" id="bookSelectButton">
             Book
           </button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Separated link</a></li>
-          </ul>
+          <ul class="dropdown-menu" id="bible-book-list"></ul>
         </div>
       </div>
       <div class="col">
         <div class="btn-group">
-          <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+          <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false" id="chapterSelectButton">
             Chapter
           </button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Separated link</a></li>
-          </ul>
+          <ul class="dropdown-menu" id="bible-chapter-list"></ul>
         </div>
       </div>
     </div>
     <!-- <div id="bible-language-list" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 200 }'></div> -->
+    <br/>
+    <div id="bible-chapter-text"></div>
     </div>
+
 <!-- Modal -->
 <div class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-hidden="true" id="initialModal" aria-labelledby="initialModalLabel" >
   <div class="modal-dialog">
