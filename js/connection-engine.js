@@ -12,8 +12,9 @@
 
         // generateId :: Integer -> String
         function debugText(text) {
-          var elem = document.getElementById("debugText");
-          elem.innerHTML = text;
+          //var elem = document.getElementById("debugText");
+          //elem.innerHTML = text;
+          return null;
         }
 
         function generateId (len) {
