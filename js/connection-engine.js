@@ -95,12 +95,7 @@
             console.log('re-rendering cursors...');
             for (let [nodeID, node] of Object.entries(todos)) {
                 if (node !== null) {
-                    let timeNow = Math.floor(Date.now() / 1000);
-                    connectionEngineGraph.get(nodeID).bye().put(null);
-                    if((timeNow-node.lastUpdated)>5 || (node.lastUpdated == null)) {
-                      deleteCursorNode(nodeID);
 
-                    } else {
                       //randomColor
                       var cursorExisting = document.getElementById(nodeID);
                       let debugText = "nodeID: " + node.userID + " x: " + node.x + "/" + node.mX + " = " + ratioWidth(node.x, node.mX) + " y: " + node.y + "/" + node.mY + " = " + ratioHeight(node.y, node.mY) + " amen clicked: " + node.amenClicked;
@@ -132,7 +127,7 @@
                       if(node.amenClicked) {
                         playAmenSound();
                       }
-                    }
+
                 }
             }
             updateConnectedCount();
@@ -173,8 +168,14 @@
             });
 
             connectionEngineGraph.map().on(function(node, nodeID){
+              let timeNow = Math.floor(Date.now() / 1000);
+              connectionEngineGraph.get(nodeID).bye().put(null);
+              if(node!=null && (timeNow-node.lastUpdated)>5) {
+                deleteCursorNode(nodeID);
+              } else {
                 localData[nodeID] = node;
                 renderList(localData);
+              }
             });
 
             var initialModal = new bootstrap.Modal(document.getElementById('initialModal'), {
