@@ -83,7 +83,14 @@
           }
           return val;
         }
-
+        function updateConnectedCount() {
+          countUsersConnected = 0;
+          for (let nodeID in localData) {
+            if(localData[nodeID]!= null) {
+              countUsersConnected +=1;
+            }
+          }
+        }
         function renderList(todos) {
             console.log('re-rendering cursors...');
             var cursorsHolder = document.getElementById("cursorsHolder");
@@ -93,7 +100,7 @@
                     connectionEngineGraph.get(nodeID).bye().put(null);
                     if((timeNow-node.lastUpdated)>5 || (node.lastUpdated == null)) {
                       deleteCursorNode(nodeID);
-                      countUsersConnected -= 1;
+
                     } else {
                       //randomColor
                       var cursorExisting = document.getElementById(nodeID);
@@ -105,7 +112,6 @@
 
                         // document.getElementById("debug-" + nodeID).innerText = debugText;
                       } else {
-                        countUsersConnected += 1;
                         var vCursor = document.createElement('div');
                         vCursor.className = "virtualCursor";
                         vCursor.id = nodeID;
@@ -130,6 +136,7 @@
                     }
                 }
             }
+            updateConnectedCount();
             document.getElementById("connectedCount").innerText = countUsersConnected;
         }
 
