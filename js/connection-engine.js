@@ -121,7 +121,8 @@
                             text.innerText = debugText;
                         var item = document.createElement('li');
                             item.appendChild(text);
-                        cursorsHolder.appendChild(item);
+
+                        document.getElementById("debugger").appendChild(item);
                       }
 
                       if(node.amenClicked) {
