@@ -21,6 +21,7 @@
           window.crypto.getRandomValues(arr)
           return Array.from(arr, dec2hex).join('')
         }
+        let countUsersConnected = 0;
         let isAmenClicked = false;
         let curX = 0;
         let curY = 0;
@@ -82,7 +83,7 @@
           }
           return val;
         }
-        
+
         function renderList(todos) {
             console.log('re-rendering cursors...');
             var cursorsHolder = document.getElementById("cursorsHolder");
@@ -103,8 +104,9 @@
                         cursorExisting.style.top = ratioHeight(node.y, node.mY);
                         cursorExisting.style.left = ratioWidth(node.x, node.mX);
 
-                        document.getElementById("debug-" + nodeID).innerText = debugText;
+                        // document.getElementById("debug-" + nodeID).innerText = debugText;
                       } else {
+                        countUsersConnected += 1;
                         var vCursor = document.createElement('div');
                         vCursor.className = "virtualCursor";
                         vCursor.id = nodeID;
@@ -114,13 +116,13 @@
                         vCursor.style.left = ratioWidth(node.x, node.mX);
                         cursorsHolder.appendChild(vCursor);
                         //debugging
-                        var text = document.createElement('div');
-                            text.id = "debug-" + nodeID;
-                            text.className = node.status
-                            text.innerText = debugText;
-                        var item = document.createElement('li');
-                            item.appendChild(text);
-                        cursorsHolder.appendChild(item);
+                        // var text = document.createElement('div');
+                        //     text.id = "debug-" + nodeID;
+                        //     text.className = node.status
+                        //     text.innerText = debugText;
+                        // var item = document.createElement('li');
+                        //     item.appendChild(text);
+                        // cursorsHolder.appendChild(item);
                       }
 
                       if(node.amenClicked) {
@@ -129,6 +131,7 @@
                     }
                 }
             }
+            document.getElementById("connectedCount").innerText = countUsersConnected;
         }
 
 
