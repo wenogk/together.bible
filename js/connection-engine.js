@@ -32,8 +32,6 @@
         } else {
           randomUserID = window.localStorage.getItem('userID');
         }
-        console.log("LOGGED IN USERID" + randomUserID)
-        //alert(randomUserID)
 
         let firstTime = true;
         //end cursor stuff
@@ -96,7 +94,7 @@
                       //randomColor
                       var cursorExisting = document.getElementById(nodeID);
 
-                      if(cursorExisting) {
+                      if(document.body.contains(cursorExisting)) {
                         debugText("cursor exists")
                         cursorExisting.style.display = "block";
                         cursorExisting.style.top = ratioHeight(node.y, node.mY);
