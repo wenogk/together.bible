@@ -1,5 +1,6 @@
 
     //,'https://gun-us.herokuapp.com/gun','https://gun-eu.herokuapp.com/gun'
+
         var gun = Gun(['https://mvp-gun.herokuapp.com/gun', 'https://e2eec.herokuapp.com/gun']);
         var connectionEngineGraph = gun.get('together.bible.cursors');
         var localData = {};
@@ -27,6 +28,8 @@
         let curY = 0;
         let randomUserID = "9999999";
         var randomColor = "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);});
+        let amenSoundAudio = new Audio('assets/sounds/amen2.mp3');
+        let cursorsHolder = document.getElementById("cursorsHolder");
         if (localStorage.getItem("userID") === null) {
           randomUserID = generateId(10);
           window.localStorage.setItem('userID', randomUserID);
@@ -66,10 +69,7 @@
             connectionEngineGraph.get(nodeID).put(null);
         };
 
-        connectionEngineGraph.map().on(function(node, nodeID){
-            localData[nodeID] = node;
-            renderList(localData);
-        });
+
 
         function ratioWidth(val,maxVal) {
           if(maxVal > window.innerWidth) {
@@ -93,7 +93,6 @@
         }
         function renderList(todos) {
             console.log('re-rendering cursors...');
-            var cursorsHolder = document.getElementById("cursorsHolder");
             for (let [nodeID, node] of Object.entries(todos)) {
                 if (node !== null) {
                     let timeNow = Math.floor(Date.now() / 1000);
@@ -119,7 +118,7 @@
                         vCursor.style.background = node.color;
                         vCursor.style.top = ratioHeight(node.y, node.mY);
                         vCursor.style.left = ratioWidth(node.x, node.mX);
-                        cursorsHolder.appendChild(vCursor);
+                        document.getElementById("cursorsHolder").appendChild(vCursor);
                         //debugging
                         // var text = document.createElement('div');
                         //     text.id = "debug-" + nodeID;
@@ -140,13 +139,6 @@
             document.getElementById("connectedCount").innerText = countUsersConnected;
         }
 
-
-          document.getElementById('bodyHolder').addEventListener('mousemove', e => {
-            curX = e.clientX;
-            curY = e.clientY;
-            addNewLocalCursor(randomUserID, (curX), (curY), randomColor, isAmenClicked, window.innerWidth, window.innerHeight)
-          });
-
           let isCurrentUserClickingAmen = false;
           function amenClicked() {
             isAmenClicked = true;
@@ -158,13 +150,45 @@
             if(!isAmenPlaying) {
 
               isAmenPlaying = true;
-              var audio = new Audio('assets/sounds/amen2.mp3');
+
               setTimeout(function() {
-                audio.play();
+                amenSoundAudio.play();
               }, 100);
-              audio.addEventListener("ended", function(){
+              amenSoundAudio.addEventListener("ended", function(){
                isAmenPlaying = false;
                isAmenClicked = false;
               });
             }
           }
+          function close_window() {
+            if (confirm("Close Window?")) {
+              close();
+            }
+          }
+          window.onload = () => {
+            document.getElementById('bodyHolder').addEventListener('mousemove', e => {
+              curX = e.clientX;
+              curY = e.clientY;
+              addNewLocalCursor(randomUserID, (curX), (curY), randomColor, isAmenClicked, window.innerWidth, window.innerHeight)
+            });
+
+            connectionEngineGraph.map().on(function(node, nodeID){
+                localData[nodeID] = node;
+                renderList(localData);
+            });
+
+            var initialModal = new bootstrap.Modal(document.getElementById('initialModal'), {
+              keyboard: false
+            });
+            document.getElementById("firstModalStartButton").addEventListener("click", function(){
+              document.getElementById("bodyContent").style.display = "block"
+              amenSoundAudio.play();
+              initialModal.hide();
+            });
+            document.getElementById("firstModalQuitButton").addEventListener("click", function(){
+              close_window()
+            });
+            initialModal.show();
+          }
+
+          //

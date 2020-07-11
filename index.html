@@ -2,11 +2,36 @@
   <head>
       <meta charset="UTF-8">
       <link rel="stylesheet" href="css/styles.css">
+      <link rel="stylesheet" href="css/bootstrap.min.css">
   </head>
   <body id="bodyHolder">
+    <div id="bodyContent" class="container text-center" style="display:none;">
     <h1><span id="connectedCount">0</span> connected</h1>
+    <button onclick="amenClicked()">Amen</button>
     <div id="cursorsHolder"></div>
+    </div>
+<!-- Modal -->
+<div class="modal fade" data-backdrop="static" id="initialModal" tabindex="-1" aria-labelledby="initialModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="initialModalLabel">Disclaimer!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        You will be connected to the other users online. Don't worry, it's not an audio, video or even a text chat!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="firstModalQuitButton">Exit</button>
+        <button type="button" class="btn btn-primary" id="firstModalStartButton">Let's go!</button>
+      </div>
+    </div>
+  </div>
+</div>
 
+    <script src="js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/gun/lib/radix.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gun/lib/radisk.js"></script>
@@ -14,7 +39,6 @@
     <script src="https://cdn.jsdelivr.net/npm/gun/lib/rindexed.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/gun/lib/bye.js"></script>
     <script src="js/connection-engine.js"></script>
-    <button onclick="amenClicked()">Amen</button>
 
   </body>
 </html>
