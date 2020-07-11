@@ -178,16 +178,17 @@
             });
 
             var initialModal = new bootstrap.Modal(document.getElementById('initialModal'), {
-              keyboard: false
+              keyboard: false,
+              backdrop:'static'
             });
             document.getElementById("firstModalStartButton").addEventListener("click", function(){
               document.getElementById("bodyContent").style.display = "block"
               amenSoundAudio.play();
               initialModal.hide();
             });
-            document.getElementById("firstModalQuitButton").addEventListener("click", function(){
-              close_window()
-            });
+            // document.getElementById("firstModalQuitButton").addEventListener("click", function(){
+            //   close_window()
+            // });
             initialModal.show();
           }
 
