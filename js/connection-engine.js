@@ -10,7 +10,6 @@
             : dec.toString(16)
         }
 
-        // generateId :: Integer -> String
         function debugText(text) {
           //var elem = document.getElementById("debugText");
           //elem.innerHTML = text;
@@ -85,9 +84,8 @@
           return val;
         }
         function renderList(todos) {
-            console.log('re-rendering UI...');
-            var c = document.getElementById("todoList");
-            todoList.innerHTML = '';
+            console.log('re-rendering cursors...');
+            var cursorsHolder = document.getElementById("cursorsHolder");
             for (let [nodeID, node] of Object.entries(todos)) {
                 if (node !== null) {
                     let timeNow = Math.floor(Date.now() / 1000);
@@ -112,7 +110,7 @@
                         vCursor.style.background = node.color;
                         vCursor.style.top = ratioHeight(node.y, node.mY);
                         vCursor.style.left = ratioWidth(node.x, node.mX);
-                        todoList.appendChild(vCursor);
+                        cursorsHolder.appendChild(vCursor);
                       }
 
                       if(node.amenClicked) {
@@ -125,10 +123,7 @@
                       var item = document.createElement('li');
                           item.id = nodeID;
                           item.appendChild(text);
-                      todoList.appendChild(item);
-                      // let vC = document.querySelector('.virtualCursor')
-                      // vC.style.top = node.y;
-                      // vC.style.left = node.x;
+                      cursorsHolder.appendChild(item);
                     }
                 }
             }
@@ -136,7 +131,6 @@
 
 
           document.getElementById('bodyHolder').addEventListener('mousemove', e => {
-            //console.log("mouse move")
             curX = e.clientX;
             curY = e.clientY;
             addNewLocalCursor(randomUserID, (curX), (curY), randomColor, isAmenClicked, window.innerWidth, window.innerHeight)
@@ -162,11 +156,4 @@
                isAmenClicked = false;
               });
             }
-            // if(isCurrentUserClickingAmen) {
-            //   isAmenClicked = false;
-            //   isCurrentUserClickingAmen = false;
-            //   addNewLocalCursor(randomUserID, widthToRatio(curX), heightToRatio(curY), randomColor, isAmenClicked)
-            // }
-            // isAmenClicked = false;
-            // addNewLocalCursor(randomUserID, widthToRatio(curX), heightToRatio(curY), randomColor, isAmenClicked)
           }
