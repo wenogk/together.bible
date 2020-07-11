@@ -1,0 +1,171 @@
+
+    //,'https://gun-us.herokuapp.com/gun','https://gun-eu.herokuapp.com/gun'
+        var gun = Gun(['https://mvp-gun.herokuapp.com/gun', 'https://e2eec.herokuapp.com/gun']);
+        var gunAppGraph = gun.get('cursors-bible-together');
+        var localData = {};
+         //start cursor stuff
+         function dec2hex (dec) {
+          return dec < 10
+            ? '0' + String(dec)
+            : dec.toString(16)
+        }
+
+        // generateId :: Integer -> String
+        function debugText(text) {
+          var elem = document.getElementById("debugText");
+          elem.innerHTML = text;
+        }
+
+        function generateId (len) {
+          var arr = new Uint8Array((len || 40) / 2)
+          window.crypto.getRandomValues(arr)
+          return Array.from(arr, dec2hex).join('')
+        }
+        let isAmenClicked = false;
+        let curX = 0;
+        let curY = 0;
+        let randomUserID = "9999999";
+        var randomColor = "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);});
+        if (localStorage.getItem("userID") === null) {
+          randomUserID = generateId(10);
+          window.localStorage.setItem('userID', randomUserID);
+        } else {
+          randomUserID = window.localStorage.getItem('userID');
+        }
+        console.log("LOGGED IN USERID" + randomUserID)
+        //alert(randomUserID)
+
+        let firstTime = true;
+        //end cursor stuff
+        function addNewLocalCursor(nodeID,x, y, color, amenClicked = false, mX = 0, mY = 0) { //mX is max X
+            let timeNow = Math.floor(Date.now() / 1000);
+            let data = {
+              userID: nodeID,
+              x: x,
+              y: y,
+              lastUpdated: timeNow,
+              color: color,
+              mX: mX,
+              mY: mY,
+              amenClicked: amenClicked
+            };
+            console.log("new Data: " + JSON.stringify(data))
+            gunAppGraph.get(nodeID).put(data);
+            //gunAppGraph.set(data);
+        };
+        function deleteCursorNode(nodeID) {
+          function removeElement(id) {
+            var elem = document.getElementById(id);
+            if(elem) {
+              elem.style.display = "none";
+            //return elem.parentNode.removeChild(elem);
+            }
+        }
+          console.log("deleting " + nodeID)
+            removeElement(nodeID);
+            gunAppGraph.get(nodeID).put(null);
+        };
+
+        gunAppGraph.map().on(function(node, nodeID){
+            localData[nodeID] = node;
+            renderList(localData);
+        });
+
+        function ratioWidth(val,maxVal) {
+          if(maxVal > window.innerWidth) {
+            return (val/maxVal)*window.innerWidth;
+          }
+          return val;
+        }
+        function ratioHeight(val,maxVal) {
+          if(maxVal > window.innerHeight) {
+            return (val/maxVal)*window.innerHeight;
+          }
+          return val;
+        }
+        function renderList(todos) {
+            console.log('re-rendering UI...');
+            var c = document.getElementById("todoList");
+            todoList.innerHTML = '';
+            for (let [nodeID, node] of Object.entries(todos)) {
+                if (node !== null) {
+                    let timeNow = Math.floor(Date.now() / 1000);
+                    gunAppGraph.get(nodeID).bye().put(null);
+                    if((timeNow-node.lastUpdated)>5 || (node.lastUpdated == null)) {
+                      deleteCursorNode(nodeID);
+                    } else {
+                      //randomColor
+                      var cursorExisting = document.getElementById(nodeID);
+
+                      if(cursorExisting) {
+                        debugText("cursor exists")
+                        cursorExisting.style.display = "block";
+                        cursorExisting.style.top = ratioHeight(node.y, node.mY);
+                        cursorExisting.style.left = ratioWidth(node.x, node.mX);
+                      } else {
+                        debugText("cursor doesnt exist so created")
+                        var vCursor = document.createElement('div');
+                        vCursor.className = "virtualCursor";
+                        vCursor.id = nodeID;
+                        vCursor.style.display = "block";
+                        vCursor.style.background = node.color;
+                        vCursor.style.top = ratioHeight(node.y, node.mY);
+                        vCursor.style.left = ratioWidth(node.x, node.mX);
+                        todoList.appendChild(vCursor);
+                      }
+
+                      if(node.amenClicked) {
+                        playAmenSound();
+                      }
+
+                      var text = document.createElement('div');
+                          text.className = node.status
+                          text.innerText = "nodeID: " + node.userID + " x: " + node.x + "/" + node.mX + " = " + ratioWidth(node.x, node.mX) + " y: " + node.y + "/" + node.mY + " = " + ratioHeight(node.y, node.mY) + " amen clicked: " + node.amenClicked;
+                      var item = document.createElement('li');
+                          item.id = nodeID;
+                          item.appendChild(text);
+                      todoList.appendChild(item);
+                      // let vC = document.querySelector('.virtualCursor')
+                      // vC.style.top = node.y;
+                      // vC.style.left = node.x;
+                    }
+                }
+            }
+        }
+
+
+          document.getElementById('bodyHolder').addEventListener('mousemove', e => {
+            //console.log("mouse move")
+            curX = e.clientX;
+            curY = e.clientY;
+            addNewLocalCursor(randomUserID, (curX), (curY), randomColor, isAmenClicked, window.innerWidth, window.innerHeight)
+          });
+
+          let isCurrentUserClickingAmen = false;
+          function amenClicked() {
+            isAmenClicked = true;
+            isCurrentUserClickingAmen = true;
+            addNewLocalCursor(randomUserID, (curX), (curY), randomColor, isAmenClicked, window.innerWidth, window.innerHeight)
+          }
+          let isAmenPlaying = false;
+          function playAmenSound() {
+            if(!isAmenPlaying) {
+
+              isAmenPlaying = true;
+              var audio = new Audio('assets/sounds/amen2.mp3');
+              setTimeout(function() {
+                audio.play();
+              }, 100);
+              audio.addEventListener("ended", function(){
+               isAmenPlaying = false;
+               isAmenClicked = false;
+              });
+            }
+            // if(isCurrentUserClickingAmen) {
+            //   isAmenClicked = false;
+            //   isCurrentUserClickingAmen = false;
+            //   addNewLocalCursor(randomUserID, widthToRatio(curX), heightToRatio(curY), randomColor, isAmenClicked)
+            // }
+            // isAmenClicked = false;
+            // addNewLocalCursor(randomUserID, widthToRatio(curX), heightToRatio(curY), randomColor, isAmenClicked)
+          }

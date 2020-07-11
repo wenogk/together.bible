@@ -1,0 +1,12 @@
+.virtualCursor {
+  position: fixed;
+  top: 20%;
+  left: 20%;
+  z-index: 99;
+  pointer-events: none;
+  opacity: 0.8;
+  background: orange;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+}
