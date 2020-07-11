@@ -66,7 +66,7 @@
         }
           console.log("deleting " + nodeID)
             removeElement(nodeID);
-            connectionEngineGraph.get(nodeID).put(null);
+          //  connectionEngineGraph.get(nodeID).put(null);
         };
 
 
@@ -176,7 +176,7 @@
                 localData[nodeID] = node;
                 renderList(localData);
               }
-            });
+            }, {change: true});
 
             var initialModal = new bootstrap.Modal(document.getElementById('initialModal'), {
               keyboard: false,
