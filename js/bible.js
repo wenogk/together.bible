@@ -17,6 +17,8 @@ let BIBLE_CHAPTER_NUM = ""; //Chapter of bible
 
 let BIBLE_CHAPTER_TEXT = "";
 let CURRENT_URL_PARAMS = localStorage.getItem("CURRENT_URL_PARAMS");
+
+let BIBLE_DATA_FOR_CONNECTION_ENGINE = {}
 let languageVersionObject = {}
 let versionBooksObject = {}
 
@@ -169,6 +171,7 @@ function setBook(bibleVersionID,bibleBookID, name) {
   });
 
   BIBLE_BOOK_ID = bibleBookID
+  BIBLE_DATA_FOR_CONNECTION_ENGINE['book'] = BIBLE_BOOK_ID + "**" + name;
   BIBLE_BOOK_NAME = name
   CURRENT_URL_PARAMS = `l=${BIBLE_LANGUAGE}&v=${BIBLE_VERSION_ID}&vn=${BIBLE_VERSION}&va=${BIBLE_VERSION_ABBR}&b=${BIBLE_BOOK_ID}&bn=${BIBLE_BOOK_NAME}`
   history.pushState(null, '', '#?' + CURRENT_URL_PARAMS);
@@ -185,6 +188,7 @@ function setChapter(bibleVersionID, chapterID, num) {
   });
   BIBLE_CHAPTER = chapterID;
   BIBLE_CHAPTER_NUM = num;
+  BIBLE_DATA_FOR_CONNECTION_ENGINE['chapter'] = BIBLE_CHAPTER + "**" + num;
   CURRENT_URL_PARAMS = `l=${BIBLE_LANGUAGE}&v=${BIBLE_VERSION_ID}&vn=${BIBLE_VERSION}&va=${BIBLE_VERSION_ABBR}&b=${BIBLE_BOOK_ID}&bn=${BIBLE_BOOK_NAME}&c=${BIBLE_CHAPTER}&cn=${BIBLE_CHAPTER_NUM}`
   history.pushState(null, '', '#?' + CURRENT_URL_PARAMS);
   localStorage.setItem("CURRENT_URL_PARAMS", CURRENT_URL_PARAMS)

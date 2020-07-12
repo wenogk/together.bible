@@ -3,8 +3,27 @@
 
         var gun = Gun(['https://mvp-gun.herokuapp.com/gun', 'https://e2eec.herokuapp.com/gun']);
         var connectionEngineGraph = gun.get('together.bible.cursors');
+        var bibleInfoGraph = gun.get('together.bible.info');
         var localData = {};
+        var localBibleData = {};
          //start cursor stuff
+         let countUsersConnected = 0;
+         let isAmenClicked = false;
+         let curX = 0;
+         let curY = 0;
+         let randomUserID = "9999999";
+         var randomColor = "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);});
+         let amenSoundAudio = new Audio('assets/sounds/amen2.mp3');
+         let cursorsHolder = document.getElementById("cursorsHolder");
+
+         if (localStorage.getItem("userID") === null) {
+           randomUserID = generateId(10);
+           window.localStorage.setItem('userID', randomUserID);
+         } else {
+           randomUserID = window.localStorage.getItem('userID');
+         }
+
+         let firstTime = true;
          function dec2hex (dec) {
           return dec < 10
             ? '0' + String(dec)
@@ -16,8 +35,8 @@
           //elem.innerHTML = text;
           return null;
         }
-        document.addEventListener("mouseup", function(event) {
-          let selectedText = (document.getSelection().toString());
+
+        function highlightTextInBible(selectedText, local = true) {
           let strippedHTML = stripHTML(BIBLE_CHAPTER_TEXT);
           let indexCopied = strippedHTML.indexOf(selectedText)
           var instance = new Mark(document.querySelector("#bible-chapter-text"));
@@ -27,9 +46,30 @@
               accuracy: "complementary",
               acrossElements: true
             });
+            if(local) {
+              BIBLE_DATA_FOR_CONNECTION_ENGINE["highlighted"] = selectedText;
+              bibleGraphSendData();
+            }
+
           }
+        }
+        function bibleGraphSendData() {
+          let timeNow = Math.floor(Date.now() / 1000);
+          BIBLE_DATA_FOR_CONNECTION_ENGINE["lastUpdated"] = timeNow;
+          bibleInfoGraph.get(randomUserID).put(BIBLE_DATA_FOR_CONNECTION_ENGINE);
+        }
+
+        document.addEventListener("mouseup", function(event) {
+          highlightTextInBible(document.getSelection().toString());
         }, false);
 
+        function renderBibleData(d) {
+          for (let [nodeID, node] of Object.entries(d)) {
+              if (node !== null) {
+
+              }
+          }
+        }
 
         function stripHTML(html) {
             let tmp = document.createElement('div');
@@ -45,22 +85,7 @@
           window.crypto.getRandomValues(arr)
           return Array.from(arr, dec2hex).join('')
         }
-        let countUsersConnected = 0;
-        let isAmenClicked = false;
-        let curX = 0;
-        let curY = 0;
-        let randomUserID = "9999999";
-        var randomColor = "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);});
-        let amenSoundAudio = new Audio('assets/sounds/amen2.mp3');
-        let cursorsHolder = document.getElementById("cursorsHolder");
-        if (localStorage.getItem("userID") === null) {
-          randomUserID = generateId(10);
-          window.localStorage.setItem('userID', randomUserID);
-        } else {
-          randomUserID = window.localStorage.getItem('userID');
-        }
 
-        let firstTime = true;
         //end cursor stuff
         function addNewLocalCursor(nodeID,x, y, color, amenClicked = false, mX = 0, mY = 0) { //mX is max X
             let timeNow = Math.floor(Date.now() / 1000);
@@ -201,6 +226,17 @@
               } else {
                 localData[nodeID] = node;
                 renderList(localData);
+              }
+            }, {change: true});
+
+            bibleInfoGraph.map().on(function(node, nodeID){
+              let timeNow = Math.floor(Date.now() / 1000);
+              if(node!=null && (timeNow-node.lastUpdated)>5) {
+                //deleteCursorNode(nodeID);
+              } else {
+                if(node.highlighted!="") {
+                  highlightTextInBible(node.highlighted, false);
+                }
               }
             }, {change: true});
 
