@@ -15,6 +15,7 @@ let BIBLE_BOOK_NAME =""
 let BIBLE_CHAPTER = ""; //Chapter of bible
 let BIBLE_CHAPTER_NUM = ""; //Chapter of bible
 
+let BIBLE_CHAPTER_TEXT = "";
 let CURRENT_URL_PARAMS = localStorage.getItem("CURRENT_URL_PARAMS");
 let languageVersionObject = {}
 let versionBooksObject = {}
@@ -179,6 +180,7 @@ function setChapter(bibleVersionID, chapterID, num) {
   const chapterTextElement = document.querySelector(`#bible-chapter-text`);
   getChapterText(bibleVersionID,chapterID).then((content) => {
     let pretty = chapterTextPrettify(content)
+    BIBLE_CHAPTER_TEXT = pretty;
     chapterTextElement.innerHTML = pretty;
   });
   BIBLE_CHAPTER = chapterID;

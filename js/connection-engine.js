@@ -16,6 +16,29 @@
           //elem.innerHTML = text;
           return null;
         }
+        document.addEventListener("mouseup", function(event) {
+          let selectedText = (document.getSelection().toString());
+          let strippedHTML = stripHTML(BIBLE_CHAPTER_TEXT);
+          let indexCopied = strippedHTML.indexOf(selectedText)
+          var instance = new Mark(document.querySelector("#bible-chapter-text"));
+          if(indexCopied>0) {
+            instance.mark(selectedText, {
+              separateWordSearch: false,
+              accuracy: "complementary",
+              acrossElements: true
+            });
+          }
+        }, false);
+
+
+        function stripHTML(html) {
+            let tmp = document.createElement('div');
+            tmp.style.display = "none";
+            tmp.innerHTML = html;
+            let stripped = tmp.textContent || tmp.innerText;
+            return stripped.replace(/\s+/g, " ").trim();
+        }
+
 
         function generateId (len) {
           var arr = new Uint8Array((len || 40) / 2)
