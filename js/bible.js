@@ -73,14 +73,18 @@ function setFromURL(url) {
 function shareClicked() {
 
   if (navigator.share) {
-  navigator.share({
-    title: 'together.bible',
-    text: 'Hey I shared a verse with you!',
-    url: window.location.href,
-  })
-    .then(() => console.log('Successful share'))
-    .catch((error) => console.log('Error sharing', error));
-}
+    navigator.share({
+      title: 'together.bible',
+      text: 'Hey I shared a verse with you!',
+      url: window.location.href,
+    })
+      .then(() => console.log('Successful share'))
+      .catch((error) => console.log('Error sharing', error));
+  } else {
+    if(copyToClipboard(window.location.href)) {
+      alert("URL copied. Please paste it and share with friends!")
+    }
+  }
 
 }
 
