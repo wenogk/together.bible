@@ -187,6 +187,7 @@ function setChapter(bibleVersionID, chapterID, num) {
   history.pushState(null, '', '#?' + CURRENT_URL_PARAMS);
   localStorage.setItem("CURRENT_URL_PARAMS", CURRENT_URL_PARAMS)
   document.getElementById("chapterSelectButton").innerText = num;
+  document.getElementById('mobile-nav-title').innerText = BIBLE_BOOK_NAME + " " + BIBLE_CHAPTER_NUM;
 }
 
       /**

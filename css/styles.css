@@ -1,3 +1,5 @@
+
+
 .virtualCursor {
   position: fixed;
   top: 20%;
@@ -63,11 +65,17 @@
 #connectedCount, #connectedCountMobile{color: white;}
 
 .navbar {
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+    padding-right: 2px !important;
     min-height: 40px !important;
+    /* overflow:auto; */
  }
 
  #bible-chapter-text {
    text-align: left;
+ }
+
+ .navbar-brand {
+   padding-left: 5px;
  }
