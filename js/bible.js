@@ -188,6 +188,7 @@ function setChapter(bibleVersionID, chapterID, num) {
   localStorage.setItem("CURRENT_URL_PARAMS", CURRENT_URL_PARAMS)
   document.getElementById("chapterSelectButton").innerText = num;
   document.getElementById('mobile-nav-title').innerText = BIBLE_BOOK_NAME + " " + BIBLE_CHAPTER_NUM;
+  document.body.scrollTop = document.documentElement.scrollTop = 0;
 }
 
       /**

@@ -71,6 +71,39 @@
     min-height: 40px !important;
     /* overflow:auto; */
  }
+ .dropdown-menu {
+   max-height: 50vh;
+   overflow-y: scroll;
+  }
+
+  .dropdown-menu::-webkit-scrollbar {
+      -webkit-appearance: none;
+  }
+
+  .dropdown-menu::-webkit-scrollbar:vertical {
+      width: 11px;
+  }
+
+  .dropdown-menu::-webkit-scrollbar:horizontal {
+      height: 11px;
+  }
+
+  .dropdown-menu::-webkit-scrollbar-thumb {
+      border-radius: 8px;
+      border: 2px solid white; /* should match background, can't be transparent */
+      background-color: rgba(0, 0, 0, 1);
+  }
+
+ .dropdown-item:hover {
+   cursor: pointer;
+ }
+
+ @media only screen and (max-width: 768px) {
+   .navbar-collapse {
+     max-height: 100vh;
+     overflow-y: auto;
+   }
+ }
 
  #bible-chapter-text {
    text-align: left;
