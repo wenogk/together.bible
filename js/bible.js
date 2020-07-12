@@ -70,19 +70,21 @@ function setFromURL(url) {
   }
 }
 
-function shareClicked() {
 
+
+function shareClicked() {
+  let title = (BIBLE_BOOK_NAME=="" || BIBLE_CHAPTER_NUM=="") ? "Together.bible" : BIBLE_BOOK_NAME + " " + BIBLE_CHAPTER_NUM;
   if (navigator.share) {
     navigator.share({
-      title: 'together.bible',
-      text: 'Hey I shared a verse with you!',
+      title: title,
+      text: 'Together.bible is a simple website to read the bible in the presence of people around the world without actually communicating with them.',
       url: window.location.href,
     })
       .then(() => console.log('Successful share'))
       .catch((error) => console.log('Error sharing', error));
   } else {
     if(copyToClipboard(window.location.href)) {
-      alert("URL copied. Please paste it and share with friends!")
+      alert(title + " URL copied. Please paste it and share with friends!")
     }
   }
 
@@ -176,7 +178,8 @@ function setBook(bibleVersionID,bibleBookID, name) {
 function setChapter(bibleVersionID, chapterID, num) {
   const chapterTextElement = document.querySelector(`#bible-chapter-text`);
   getChapterText(bibleVersionID,chapterID).then((content) => {
-    chapterTextElement.innerHTML = content;
+    let pretty = chapterTextPrettify(content)
+    chapterTextElement.innerHTML = pretty;
   });
   BIBLE_CHAPTER = chapterID;
   BIBLE_CHAPTER_NUM = num;
@@ -356,6 +359,13 @@ function getBooks(bibleVersionID) {
       function searchButton(){
         const searchInput = document.querySelector(`#search-input`);
         window.location.href = `./search.html?&version=${bibleVersionID}&abbr=${abbreviation}&query=${searchInput.value}`;
+      }
+
+      function chapterTextPrettify(text) {
+        function bolden(match, offset, string) {
+          return "<b> " + match + " </b> ";
+        }
+        return text.replace(/500|[0-9]\d?/g, bolden);
       }
 
       function getChapterText(bibleVersionID,bibleChapterID) {
