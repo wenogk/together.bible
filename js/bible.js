@@ -36,11 +36,11 @@ getBibleVersions().then((biblelanguageList) => {
   }
 
   languageList.innerHTML = languageHTML;
-  setFromURL();
+  setFromURL(window.location.href);
 });
 
 
-function setFromURL(url = window.location.href) {
+function setFromURL(url) {
   let l = getParameterByName("l" , url)
   let v = getParameterByName("v", url) //version id
   let vn = getParameterByName("vn", url) //version name
@@ -64,7 +64,7 @@ function setFromURL(url = window.location.href) {
   } else if(l) {
     setLanguage(l);
   } else if(CURRENT_URL_PARAMS !== null) {
-    setFromURL(CURRENT_URL_PARAMS);
+    setFromURL("#?"+CURRENT_URL_PARAMS);
   } else {
     setFromURL("#?l=English&v=de4e12af7f28f599-01&vn=King%20James%20(Authorised)%20Version&va=engKJV&b=ROM&bn=Romans&c=ROM.10&cn=10");
   }
@@ -107,6 +107,7 @@ function setLanguage(language) {
   BIBLE_LANGUAGE = language;
   CURRENT_URL_PARAMS = `l=${BIBLE_LANGUAGE}`
   history.pushState(null, '', '#?' + CURRENT_URL_PARAMS);
+  localStorage.setItem("CURRENT_URL_PARAMS", CURRENT_URL_PARAMS)
   document.getElementById("languageSelectButton").innerText = BIBLE_LANGUAGE;
   languageSelectButton
 
@@ -129,6 +130,7 @@ function setVersion(id,name,abbr) {
   BIBLE_VERSION_ID = id;
   BIBLE_VERSION_ABBR = abbr;
   CURRENT_URL_PARAMS = `l=${BIBLE_LANGUAGE}&v=${BIBLE_VERSION_ID}&vn=${BIBLE_VERSION}&va=${BIBLE_VERSION_ABBR}`
+  localStorage.setItem("CURRENT_URL_PARAMS", CURRENT_URL_PARAMS)
   history.pushState(null, '', '#?' + CURRENT_URL_PARAMS);
   document.getElementById("versionSelectButton").innerText = BIBLE_VERSION_ABBR;
 }
@@ -150,6 +152,7 @@ function setBook(bibleVersionID,bibleBookID, name) {
   BIBLE_BOOK_NAME = name
   CURRENT_URL_PARAMS = `l=${BIBLE_LANGUAGE}&v=${BIBLE_VERSION_ID}&vn=${BIBLE_VERSION}&va=${BIBLE_VERSION_ABBR}&b=${BIBLE_BOOK_ID}&bn=${BIBLE_BOOK_NAME}`
   history.pushState(null, '', '#?' + CURRENT_URL_PARAMS);
+  localStorage.setItem("CURRENT_URL_PARAMS", CURRENT_URL_PARAMS)
   document.getElementById("bookSelectButton").innerText = name;
 }
 
@@ -162,6 +165,7 @@ function setChapter(bibleVersionID, chapterID, num) {
   BIBLE_CHAPTER_NUM = num;
   CURRENT_URL_PARAMS = `l=${BIBLE_LANGUAGE}&v=${BIBLE_VERSION_ID}&vn=${BIBLE_VERSION}&va=${BIBLE_VERSION_ABBR}&b=${BIBLE_BOOK_ID}&bn=${BIBLE_BOOK_NAME}&c=${BIBLE_CHAPTER}&cn=${BIBLE_CHAPTER_NUM}`
   history.pushState(null, '', '#?' + CURRENT_URL_PARAMS);
+  localStorage.setItem("CURRENT_URL_PARAMS", CURRENT_URL_PARAMS)
   document.getElementById("chapterSelectButton").innerText = num;
 }
 
