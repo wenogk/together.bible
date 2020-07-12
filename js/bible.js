@@ -15,7 +15,7 @@ let BIBLE_BOOK_NAME =""
 let BIBLE_CHAPTER = ""; //Chapter of bible
 let BIBLE_CHAPTER_NUM = ""; //Chapter of bible
 
-let CURRENT_URL_PARAMS = "";
+let CURRENT_URL_PARAMS = localStorage.getItem("CURRENT_URL_PARAMS");
 let languageVersionObject = {}
 let versionBooksObject = {}
 
@@ -40,15 +40,15 @@ getBibleVersions().then((biblelanguageList) => {
 });
 
 
-function setFromURL() {
-  let l = getParameterByName("l")
-  let v = getParameterByName("v") //version id
-  let vn = getParameterByName("vn") //version name
-  let va = getParameterByName("va") //version abbreviation
-  let b = getParameterByName("b") //book
-  let bn = getParameterByName("bn")//book name
-  let c = getParameterByName("c") //chapter id
-  let cn = getParameterByName("cn") //chapter number
+function setFromURL(url = window.location.href) {
+  let l = getParameterByName("l" , url)
+  let v = getParameterByName("v", url) //version id
+  let vn = getParameterByName("vn", url) //version name
+  let va = getParameterByName("va", url) //version abbreviation
+  let b = getParameterByName("b", url) //book
+  let bn = getParameterByName("bn", url)//book name
+  let c = getParameterByName("c", url) //chapter id
+  let cn = getParameterByName("cn", url) //chapter number
   if(l && v && b && c) {
     setLanguage(l);
     setVersion(v,vn,va);
@@ -63,8 +63,10 @@ function setFromURL() {
     setVersion(v,vn,va);
   } else if(l) {
     setLanguage(l);
+  } else if(CURRENT_URL_PARAMS !== null) {
+    setFromURL(CURRENT_URL_PARAMS);
   } else {
-  //  alert("none;")
+    setFromURL("#?l=English&v=de4e12af7f28f599-01&vn=King%20James%20(Authorised)%20Version&va=engKJV&b=ROM&bn=Romans&c=ROM.10&cn=10");
   }
 }
 
@@ -318,8 +320,7 @@ function getBooks(bibleVersionID) {
        * @param {string} name of query parameter
        * @returns {string} value of query parameter
        */
-      function getParameterByName(name) {
-        const url = window.location.href;
+      function getParameterByName(name, url) {
         name = name.replace(/[\[\]]/g, `\\$&`);
         const regex = new RegExp(`[?&]` + name + `(=([^&#]*)|&|#|$)`),
           results = regex.exec(url);
