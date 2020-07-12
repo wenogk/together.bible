@@ -16,8 +16,27 @@ let BIBLE_CHAPTER = ""; //Chapter of bible
 let languageVersionObject = {}
 let versionBooksObject = {}
 
-function setLanguage(language) {
+function refreshSelects(level) { //level can be 1 for language, 2 for version, 3 for book
+  if(level==1) {
+    document.getElementById("versionSelectButton").innerText = "Version";
 
+    document.getElementById("bookSelectButton").innerText = "Book";
+    document.querySelector(`#bible-book-list`).innerHTML = "<li>Select a version first</li>"
+
+    document.getElementById("chapterSelectButton").innerText = "Chapter";
+    document.querySelector(`#bible-chapter-list`).innerHTML = "<li>Select a Book first</li>"
+  } else if(level==2) {
+    document.getElementById("bookSelectButton").innerText = "Book";
+
+    document.getElementById("chapterSelectButton").innerText = "Chapter";
+    document.querySelector(`#bible-chapter-list`).innerHTML = "<li>Select a Book first</li>"
+  } else if(level==3) {
+    document.getElementById("bookSelectButton").innerText = "Book";
+  }
+}
+
+function setLanguage(language) {
+  refreshSelects(1)
   function populatelanguageListByLanguage(languageVal) { // closure function for population cus i might need to take this out later
     const versionList = document.querySelector(`#bible-version-list`);
     versionList.innerHTML = '';
@@ -37,7 +56,7 @@ function setLanguage(language) {
 }
 
 function setVersion(id,name,abbr) {
-
+  refreshSelects(2)
   getBooks(id).then((bookList) => {
    CURRENT_SELECTED_BIBLE_BOOK_LIST = [...bookList];
    const bookListElement = document.querySelector(`#bible-book-list`);
@@ -56,6 +75,7 @@ function setVersion(id,name,abbr) {
 }
 
 function setBook(bibleVersionID,bibleBookID, name) {
+  refreshSelects(3)
   //bible-chapter-list
   getChapters(bibleVersionID, bibleBookID).then((chapterList) => {
     const chapterListElement = document.querySelector(`#bible-chapter-list`);
