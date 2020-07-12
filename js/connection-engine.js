@@ -56,6 +56,7 @@
         function bibleGraphSendData() {
           let timeNow = Math.floor(Date.now() / 1000);
           BIBLE_DATA_FOR_CONNECTION_ENGINE["lastUpdated"] = timeNow;
+          BIBLE_DATA_FOR_CONNECTION_ENGINE["userID"] = randomUserID;
           bibleInfoGraph.get(randomUserID).put(BIBLE_DATA_FOR_CONNECTION_ENGINE);
         }
 
@@ -223,7 +224,7 @@
               connectionEngineGraph.get(nodeID).bye().put(null);
               if(node!=null && (timeNow-node.lastUpdated)>5) {
                 deleteCursorNode(nodeID);
-              } else {
+              } else if(node!=null) {
                 localData[nodeID] = node;
                 renderList(localData);
               }
@@ -231,10 +232,16 @@
 
             bibleInfoGraph.map().on(function(node, nodeID){
               let timeNow = Math.floor(Date.now() / 1000);
+
               if(node!=null && (timeNow-node.lastUpdated)>5) {
+
                 //deleteCursorNode(nodeID);
-              } else {
+              } else if(node!=null) {
+                if(node.userID == randomUserID) {
+                  return;
+                }
                 if(node.highlighted!="") {
+
                   highlightTextInBible(node.highlighted, false);
                 }
               }
