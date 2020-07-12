@@ -70,6 +70,19 @@ function setFromURL(url) {
   }
 }
 
+function shareClicked() {
+
+  if (navigator.share) {
+  navigator.share({
+    title: 'together.bible',
+    text: 'Hey I shared a verse with you!',
+    url: window.location.href,
+  })
+    .then(() => console.log('Successful share'))
+    .catch((error) => console.log('Error sharing', error));
+}
+
+}
 
 function refreshSelects(level) { //level can be 1 for language, 2 for version, 3 for book
   if(level==1) {

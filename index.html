@@ -10,12 +10,13 @@
     <div id="bodyContent" class="container text-center" style="display:none;">
     <h1><span id="connectedCount">0</span></h1>
     <button class="btn btn-primary btn-lg amenButton" onclick="amenClicked()" data-toggle="tooltip" data-placement="right" title="This will send a sound to everyone online!">Amen</button>
+    <button class="btn btn-primary btn-lg shareButton" onclick="shareClicked()" data-toggle="tooltip" data-placement="left" title="Share!">Share</button>
     <div id="cursorsHolder"></div>
     <ul id="debugger"></ul>
     <div class="row">
       <div class="col-sm-3 col-3">
-        <div class="btn-group">
-          <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false" id="languageSelectButton">
+        <div class="btn-group" >
+          <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false" id="languageSelectButton" >
             Language
           </button>
           <ul class="dropdown-menu" id="bible-language-list">
