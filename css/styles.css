@@ -12,13 +12,11 @@
 }
 
 .amenButton {
-  position: fixed;
   top:2px;
   left: 2px;
 }
 
 .shareButton {
-  position: fixed;
   top:2px;
   right: 2px;
 }
@@ -47,4 +45,20 @@
   border: 2px solid #333;
   border-color: hsla(0, 0%, 0%, 0.5);
   border-radius: 5px;
+ }
+
+#connectionBanner {
+  width: 100vw;
+  height: 35px;
+  background: black;
+  display:inline-block;
+  overflow: auto;
+  white-space: nowrap;
+  margin:0px auto;
+}
+
+.navbar {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    min-height: 40px !important;
  }

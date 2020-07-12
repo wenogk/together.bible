@@ -114,7 +114,7 @@ function setLanguage(language) {
     versionList.innerHTML = '';
     let versionHTML = ``;
     for (let version of languageVersionObject[languageVal]) {
-      versionHTML += `<li><a class="dropdown-item" onclick="setVersion('${version.id}','${version.name}','${version.abbreviation}')">${version.name}</a></li>`;
+      versionHTML += `<a class="dropdown-item" onclick="setVersion('${version.id}','${version.name}','${version.abbreviation}')">${version.name}</a>`;
     }
     versionList.innerHTML = versionHTML;
   }
@@ -138,7 +138,7 @@ function setVersion(id,name,abbr) {
    bookListElement.innerHTML = '';
    let bookHTML = ``;
    for (let book of bookList) {
-     bookHTML += `<li><a class="dropdown-item" onclick="setBook('${id}','${book.id}','${book.name}')">${book.name}</a></li>`;
+     bookHTML += `<a class="dropdown-item" onclick="setBook('${id}','${book.id}','${book.name}')">${book.name}</a>`;
    }
    bookListElement.innerHTML = bookHTML;
  });
@@ -160,7 +160,7 @@ function setBook(bibleVersionID,bibleBookID, name) {
     chapterListElement.innerHTML = '';
     let chapterHTML = ``;
     for (let chapter of chapterList) {
-      chapterHTML += `<li><a class="dropdown-item" onclick="setChapter('${bibleVersionID}','${chapter.id}','${chapter.number}')"> ${chapter.number} </a></li>`;
+      chapterHTML += `<a class="dropdown-item" onclick="setChapter('${bibleVersionID}','${chapter.id}','${chapter.number}')"> ${chapter.number} </a>`;
     }
     chapterListElement.innerHTML = chapterHTML;
   });

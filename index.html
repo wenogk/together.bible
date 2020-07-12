@@ -7,47 +7,68 @@
       <title>Together.</title>
   </head>
   <body id="bodyHolder">
-    <div id="bodyContent" class="container text-center" style="display:none;">
-    <h1><span id="connectedCount">0</span></h1>
-    <button class="btn btn-primary btn-lg amenButton" onclick="amenClicked()" data-toggle="tooltip" data-placement="right" title="This will send a sound to everyone online!">Amen</button>
-    <button class="btn btn-primary btn-lg shareButton" onclick="shareClicked()" data-toggle="tooltip" data-placement="left" title="Share!">Share</button>
-    <div id="cursorsHolder"></div>
-    <ul id="debugger"></ul>
-    <div class="row">
-      <div class="col-sm-3 col-3">
-        <div class="btn-group" >
-          <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false" id="languageSelectButton" >
-            Language
-          </button>
-          <ul class="dropdown-menu" id="bible-language-list">
-          </ul>
-        </div>
+    <div id="connectionBanner">
+      <div style='float: right;'>
+      <button class="btn btn-primary btn-sm shareButton" onclick="shareClicked()" data-toggle="tooltip" data-placement="left" title="Share!">Share</button>
+
       </div>
-      <div class="col-sm-3 col-3">
-        <div class="btn-group">
-          <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false" id="versionSelectButton">
-            Version
-          </button>
-          <ul class="dropdown-menu" id="bible-version-list"></ul>
-        </div>
-      </div>
-      <div class="col-sm-3 col-3">
-        <div class="btn-group">
-          <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false" id="bookSelectButton">
-            Book
-          </button>
-          <ul class="dropdown-menu" id="bible-book-list"></ul>
-        </div>
-      </div>
-      <div class="col-sm-3 col-3">
-        <div class="btn-group">
-          <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false" id="chapterSelectButton">
-            Chapter
-          </button>
-          <ul class="dropdown-menu" id="bible-chapter-list"></ul>
-        </div>
+      <div style='float: left;'>
+      <button class="btn btn-primary btn-sm amenButton" onclick="amenClicked()" data-toggle="tooltip" data-placement="right" title="This will send a sound to everyone online!">Amen</button>
+
       </div>
     </div>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle py-0" type="button" data-toggle="dropdown" aria-expanded="false" id="languageSelectButton" >
+                  Language
+                </a>
+                <div class="dropdown-menu" id="bible-language-list" aria-labelledby="languageSelectButton"></div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle py-0" type="button" data-toggle="dropdown" aria-expanded="false" id="versionSelectButton">
+                  Version
+                </a>
+                <div class="dropdown-menu" id="bible-version-list" aria-labelledby="versionSelectButton"></div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle py-0" type="button" data-toggle="dropdown" aria-expanded="false" id="bookSelectButton">
+                  Book
+                </a>
+                <div class="dropdown-menu" id="bible-book-list" aria-labelledby="bookSelectButton"></div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle py-0" type="button" data-toggle="dropdown" aria-expanded="false" id="chapterSelectButton">
+                  Chapter
+                </a>
+                <div class="dropdown-menu" id="bible-chapter-list" aria-labelledby="chapterSelectButton"></div>
+            </li>
+        </ul>
+    </div>
+    <div class="mx-auto order-0">
+        <a class="navbar-brand mx-auto" href="#">together.bible</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              </li>
+        </ul>
+    </div>
+</nav>
+
+    <div id="bodyContent" class="container text-center" style="display:none;">
+
+    <h1><span id="connectedCount">0</span></h1>
+    <div id="cursorsHolder"></div>
+    <ul id="debugger"></ul>
+
     <!-- <div id="bible-language-list" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 200 }'></div> -->
     <br/>
     <div id="bible-chapter-text"></div>
