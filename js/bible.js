@@ -162,7 +162,7 @@ function setBook(bibleVersionID,bibleBookID, name) {
     chapterListElement.innerHTML = '';
     let chapterHTML = ``;
     for (let chapter of chapterList) {
-      chapterHTML += `<a class="dropdown-item" onclick="setChapter('${bibleVersionID}','${chapter.id}','${chapter.number}')"> ${chapter.number} </a>`;
+      chapterHTML += `<a class="dropdown-item" onclick="setChapter('${bibleVersionID}','${chapter.id}','${chapter.number}')" data-toggle="collapse" data-target=".navbar-collapse.show"> ${chapter.number} </a>`;
     }
     chapterListElement.innerHTML = chapterHTML;
   });
