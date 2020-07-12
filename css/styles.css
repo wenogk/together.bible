@@ -67,3 +67,7 @@
     padding-bottom: 0 !important;
     min-height: 40px !important;
  }
+
+ #bible-chapter-text {
+   text-align: left;
+ }
