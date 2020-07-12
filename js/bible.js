@@ -365,7 +365,8 @@ function getBooks(bibleVersionID) {
         function bolden(match, offset, string) {
           return "<b> " + match + " </b> ";
         }
-        return text.replace(/500|[0-9]\d?/g, bolden);
+        let numbersBolded = text.replace(/500|[0-9]\d?/g, bolden);
+        return numbersBolded.replace(/[¶]+/g,""); // removes annoying ¶ idk what it is
       }
 
       function getChapterText(bibleVersionID,bibleChapterID) {
