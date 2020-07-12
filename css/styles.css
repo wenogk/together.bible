@@ -2,7 +2,7 @@
   position: fixed;
   top: 20%;
   left: 20%;
-  z-index: 99;
+  z-index: 1000;
   pointer-events: none;
   opacity: 0.8;
   background: orange;
@@ -55,6 +55,7 @@
   flex-direction: row;            /* default value; can be omitted */
   flex-wrap: nowrap;              /* default value; can be omitted */
   justify-content: space-between; /* switched from default (flex-start, see below) */
+  align-items: center;
 }
 
 #connectionBannerLeft{}
