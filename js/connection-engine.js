@@ -245,7 +245,7 @@
                   highlightTextInBible(node.highlighted, false);
                 }
               }
-            }, {change: true});
+            }, {});
 
             var initialModal = new bootstrap.Modal(document.getElementById('initialModal'), {
               keyboard: false,
