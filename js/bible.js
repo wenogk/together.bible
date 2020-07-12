@@ -10,11 +10,64 @@ let BIBLE_VERSION_ID = ""; //Versions of bible
 let BIBLE_VERSION_ABBR = ""; //Versions of bible
 
 let BIBLE_BOOK_ID = ""; //Books of Bible
+let BIBLE_BOOK_NAME =""
 
 let BIBLE_CHAPTER = ""; //Chapter of bible
+let BIBLE_CHAPTER_NUM = ""; //Chapter of bible
 
+let CURRENT_URL_PARAMS = "";
 let languageVersionObject = {}
 let versionBooksObject = {}
+
+const languageList = document.querySelector(`#bible-language-list`);
+let languageHTML = ``;
+getBibleVersions().then((biblelanguageList) => {
+  const sortedVersions = sortVersionsByLanguage(biblelanguageList);
+
+  for (let languageGroup in sortedVersions) {
+    const language = languageGroup;
+    languageHTML += `<li><a class="dropdown-item" onclick="setLanguage('${language}')">${language}</a></li>`;
+    const versions = sortedVersions[languageGroup];
+    languageVersionObject[language] = [];
+    for (let version of versions) {
+      languageVersionObject[language].push(version)
+    }
+    languageHTML += `</div>`;
+  }
+
+  languageList.innerHTML = languageHTML;
+  setFromURL();
+});
+
+
+function setFromURL() {
+  let l = getParameterByName("l")
+  let v = getParameterByName("v") //version id
+  let vn = getParameterByName("vn") //version name
+  let va = getParameterByName("va") //version abbreviation
+  let b = getParameterByName("b") //book
+  let bn = getParameterByName("bn")//book name
+  let c = getParameterByName("c") //chapter id
+  let cn = getParameterByName("cn") //chapter number
+  if(l && v && b && c) {
+    setLanguage(l);
+    setVersion(v,vn,va);
+    setBook(v,b,bn);
+    setChapter(v,c,cn);
+  } else if(l && v && b) {
+    setLanguage(l);
+    setVersion(v,vn,va);
+    setBook(v,b,bn);
+  } else if(l && v) {
+    setLanguage(l);
+    setVersion(v,vn,va);
+  } else if(l) {
+    setLanguage(l);
+  } else {
+  //  alert("none;")
+  }
+}
+
 
 function refreshSelects(level) { //level can be 1 for language, 2 for version, 3 for book
   if(level==1) {
@@ -50,6 +103,8 @@ function setLanguage(language) {
   populatelanguageListByLanguage(language);
   CURRENT_SELECTED_BIBLE_VERSION_LIST =  [...languageVersionObject[language]];
   BIBLE_LANGUAGE = language;
+  CURRENT_URL_PARAMS = `l=${BIBLE_LANGUAGE}`
+  history.pushState(null, '', '#?' + CURRENT_URL_PARAMS);
   document.getElementById("languageSelectButton").innerText = BIBLE_LANGUAGE;
   languageSelectButton
 
@@ -71,6 +126,8 @@ function setVersion(id,name,abbr) {
   BIBLE_VERSION = name;
   BIBLE_VERSION_ID = id;
   BIBLE_VERSION_ABBR = abbr;
+  CURRENT_URL_PARAMS = `l=${BIBLE_LANGUAGE}&v=${BIBLE_VERSION_ID}&vn=${BIBLE_VERSION}&va=${BIBLE_VERSION_ABBR}`
+  history.pushState(null, '', '#?' + CURRENT_URL_PARAMS);
   document.getElementById("versionSelectButton").innerText = BIBLE_VERSION_ABBR;
 }
 
@@ -88,6 +145,9 @@ function setBook(bibleVersionID,bibleBookID, name) {
   });
 
   BIBLE_BOOK_ID = bibleBookID
+  BIBLE_BOOK_NAME = name
+  CURRENT_URL_PARAMS = `l=${BIBLE_LANGUAGE}&v=${BIBLE_VERSION_ID}&vn=${BIBLE_VERSION}&va=${BIBLE_VERSION_ABBR}&b=${BIBLE_BOOK_ID}&bn=${BIBLE_BOOK_NAME}`
+  history.pushState(null, '', '#?' + CURRENT_URL_PARAMS);
   document.getElementById("bookSelectButton").innerText = name;
 }
 
@@ -97,41 +157,11 @@ function setChapter(bibleVersionID, chapterID, num) {
     chapterTextElement.innerHTML = content;
   });
   BIBLE_CHAPTER = chapterID;
+  BIBLE_CHAPTER_NUM = num;
+  CURRENT_URL_PARAMS = `l=${BIBLE_LANGUAGE}&v=${BIBLE_VERSION_ID}&vn=${BIBLE_VERSION}&va=${BIBLE_VERSION_ABBR}&b=${BIBLE_BOOK_ID}&bn=${BIBLE_BOOK_NAME}&c=${BIBLE_CHAPTER}&cn=${BIBLE_CHAPTER_NUM}`
+  history.pushState(null, '', '#?' + CURRENT_URL_PARAMS);
   document.getElementById("chapterSelectButton").innerText = num;
 }
-
-
-
-
-      const languageList = document.querySelector(`#bible-language-list`);
-      let languageHTML = ``;
-      getBibleVersions().then((biblelanguageList) => {
-        const sortedVersions = sortVersionsByLanguage(biblelanguageList);
-
-        for (let languageGroup in sortedVersions) {
-          const language = languageGroup;
-          languageHTML += `<li><a class="dropdown-item" onclick="setLanguage('${language}')">${language}</a></li>`;
-          const versions = sortedVersions[languageGroup];
-          languageVersionObject[language] = [];
-          for (let version of versions) {
-            languageVersionObject[language].push(version)
-            // languageHTML += `<div class="bible">
-            //                   <a href="book.html?version=${version.id}&abbr=${version.abbreviation}">
-            //                     <abbr class="bible-version-abbr" title="${version.name}">${version.abbreviation}</abbr>
-            //                     <span>
-            //                       <span class="bible-version-name">${version.name}</span>
-            //                       ${version.description ? '<span class="bible-version-desc">' + version.description + "</span>" : ''}
-            //                     </span>
-            //                   </a>
-            //                 </div>`;
-          }
-          languageHTML += `</div>`;
-        }
-        console.log("lang: " + JSON.stringify(languageVersionObject))
-        languageList.innerHTML = languageHTML;
-
-      });
-
 
       /**
        * Gets Bible versions from API.Bible
@@ -225,53 +255,6 @@ function getBooks(bibleVersionID) {
     xhr.send();
   });
 }
-
-
-      const bibleChapterList = document.querySelector(`#chapter-list`);
-      const bibleSectionList = document.querySelector(`#section-list`);
-      const bibleVersionID = getParameterByName(`version`);
-      const bibleBookID = getParameterByName(`book`);
-      const abbreviation = getParameterByName(`abbr`);
-
-      let chapterHTML = ``;
-      let sectionHTML = ``;
-
-      if (!bibleVersionID || !bibleBookID) {
-      //  window.location.href = `./index.html`;
-      }
-
-      getChapters(bibleVersionID, bibleBookID).then((chapterList) => {
-        chapterHTML += `<ol>`;
-        for (let chapter of chapterList) {
-          chapterHTML += `<li class="grid"><a class="grid-link" href="verse.html?version=${bibleVersionID}&abbr=${abbreviation}&chapter=${chapter.id}"> ${chapter.number} </a></li>`;
-        }
-        chapterHTML += `</ol>`;
-        bibleChapterList.innerHTML = chapterHTML;
-      });
-
-      getSections(bibleVersionID, bibleBookID).then((sectionList) => {
-        if (sectionList) {
-          sectionHTML += `<ol>`;
-          for (let section of sectionList) {
-            sectionHTML += `<li class="section"><a href="section.html?version=${bibleVersionID}&abbr=${abbreviation}&section=${section.id}"><abbr class="section-id">${section.id}</abbr><span class="bible-version-name"> ${section.title} </span></a></li>`;
-          }
-          sectionHTML += `</ol>`;
-        } else {
-          sectionHTML += `<div>There are no sections for this version and chapter.</div>`;
-        }
-
-        bibleSectionList.innerHTML = sectionHTML;
-      });
-
-      document.querySelector(`#viewing`).innerHTML = `${bibleBookID}`;
-      const breadcrumbsHTML = `
-        <ul>
-          <li><a href="book.html?version=${bibleVersionID}&abbr=${abbreviation}">${abbreviation}</a></li>
-          <li>${bibleBookID}</li>
-        </ul>
-      `;
-      breadcrumbs.innerHTML = breadcrumbsHTML;
-
       /**
        * Gets chapters from API.Bible
        * @param {string} bibleVersionID to get chapters from
