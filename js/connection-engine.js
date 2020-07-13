@@ -150,7 +150,7 @@
                       if(document.body.contains(cursorExisting)) {
                         cursorExisting.style.display = "block";
                         cursorExisting.style.top = (node.userID!==randomUserID) ? ratioHeight(node.y, node.mY) : node.y;
-                        cursorExisting.style.left = (node.userID!==randomUserID) ? ratioWidth(node.x, node.mX) : node.y;
+                        cursorExisting.style.left = (node.userID!==randomUserID) ? ratioWidth(node.x, node.mX) : node.x;
 
                         document.getElementById("debug-" + nodeID).innerText = debugText;
                       } else {
