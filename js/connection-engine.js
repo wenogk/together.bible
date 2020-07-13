@@ -118,12 +118,14 @@
 
 
         function ratioWidth(val,maxVal) {
+          return (val/maxVal)*window.innerHeight; //remove this line for responsive ish cursor
           if(maxVal > window.innerWidth) {
             return (val/maxVal)*window.innerWidth;
           }
           return val;
         }
         function ratioHeight(val,maxVal) {
+          return (val/maxVal)*window.innerHeight; //remove this line for responsive ish cursor
           if(maxVal > window.innerHeight) {
             return (val/maxVal)*window.innerHeight;
           }
