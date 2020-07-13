@@ -231,7 +231,7 @@
               addNewLocalCursor(randomUserID, (curX), (curY), randomColor, isAmenClicked, window.innerWidth, window.innerHeight)
             }, false);
 
-            document.addEventListener('touchmove', function(e) { //for mobile
+            document.addEventListener('touchmove', function(e) { //for mobile move
               curX = e.changedTouches[0].clientX;
               curY = e.changedTouches[0].clientY;
               addNewLocalCursor(randomUserID, (curX), (curY), randomColor, isAmenClicked, window.innerWidth, window.innerHeight)
