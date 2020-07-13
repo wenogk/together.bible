@@ -283,7 +283,7 @@
                   Toastify({
                     text: text,
                     avatar: flagURL,
-                    duration: 2000,
+                    duration: 3300,
                     newWindow: false,
                     close: false,
                     gravity: "bottom", // `top` or `bottom`,
