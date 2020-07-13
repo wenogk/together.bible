@@ -116,7 +116,7 @@
  .heart {
     z-index : 999;
     animation : heartfade 6s linear;
-   position : absolute;
+   position : fixed;
  }
  .heart:before,
  .heart:after {
