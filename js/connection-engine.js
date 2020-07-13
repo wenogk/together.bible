@@ -273,9 +273,12 @@
                   if(localUserSubscribedChapterUpdates[node.id] == node.lastChapterUpdated) {
                     return;
                   }
-                  let flagURL = `https://www.countryflags.io/${node.countryCode}/flat/32.png`
+                  let flagURL = (node.countryCode !== undefined) ? `https://www.countryflags.io/${node.countryCode}/flat/32.png` : "";
                   let timeTitle = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
                   let text = 'Someone from ' + node.country +' is reading ' + node.book.split('**')[1] + ' ' + node.chapter.split('**')[1];
+                  if(node.country === undefined) {
+                    text = 'Someone is reading ' + node.book.split('**')[1] + ' ' + node.chapter.split('**')[1];
+                  }
                   Toastify({
                     text: text,
                     avatar: flagURL,
