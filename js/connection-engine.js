@@ -60,9 +60,7 @@
           bibleInfoGraph.get(randomUserID).put(BIBLE_DATA_FOR_CONNECTION_ENGINE);
         }
 
-        document.addEventListener("mouseup", function(event) {
-          highlightTextInBible(document.getSelection().toString());
-        }, false);
+
 
         function renderBibleData(d) {
           for (let [nodeID, node] of Object.entries(d)) {
@@ -236,6 +234,11 @@
               curY = e.changedTouches[0].clientY;
               addNewLocalCursor(randomUserID, (curX), (curY), randomColor, isAmenClicked, window.innerWidth, window.innerHeight)
             }, false);
+
+            document.addEventListener("mouseup", function(event) { //listener for highlight text done in pc
+              highlightTextInBible(document.getSelection().toString());
+            }, false);
+            document.addEventListener('contextmenu', setTimeout(highlightTextInBible(document.getSelection().toString()), 1)); //listener for highlight text done in mobile
 
             connectionEngineGraph.map().on(function(node, nodeID){
               let timeNow = Math.floor(Date.now() / 1000);
