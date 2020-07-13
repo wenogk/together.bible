@@ -31,13 +31,11 @@ function generateHeart(x, y, xBound, xStart, scale)
 
 var before = Date.now();
 
-let id = setInterval(frame, 5);
+let id = null;
 
 function frame()
 {
-  if(hearts.length == 0) {
-    clearInterval(id);
-  }
+
 	var current = Date.now();
 	var deltaTime = current - before;
 	before = current;
@@ -55,27 +53,31 @@ function frame()
 		{
 			heart.parentNode.removeChild(heart);
 			hearts.splice(i, 1);
+      if(hearts.length == 0) {
+        clearInterval(id);
+        id = null;
+        return;
+      }
 		}
 	}
 }
 
-function runHeartAnimation(numberOfHearts = 20, scaleVal = 1.5)
+function runHeartAnimation(numberOfHearts = 20, scaleVal = 1.2)
 {
-  if(hearts.length>0) {return}
-  id = setInterval(frame, 5);
-  function gen() {
-    setTimeout(function() {
-      var start = 2;
-      var scale = Math.random() * Math.random() * scaleVal + 0.2;
-      var bound = 30 + Math.random() * 20;
-      let x = Math.floor(Math.random() * window.innerWidth);
-      generateHeart(x, window.innerHeight + 10, bound, start, scale);
-    }, Math.random() * 2000);
+  if(id === null) {
+    id = setInterval(frame, 5);
+    function gen() {
+      setTimeout(function() {
+        var start = 2;
+        var scale = Math.random() * Math.random() * scaleVal + 0.2;
+        var bound = 30 + Math.random() * 20;
+        let padding = 0.2;
+        let x = Math.floor(Math.random() * (window.innerWidth - (window.innerWidth*padding*2)));
+        generateHeart(x + (padding*window.innerWidth), window.innerHeight + 10, bound, start, scale);
+      }, Math.random() * 2000);
+    }
+    for(let x = 0; x < numberOfHearts; x++) {
+      gen()
+    }
   }
-  for(let x = 0; x < numberOfHearts; x++) {
-    gen()
-  }
-
 }
-
-runHeartAnimation(10, 3)
