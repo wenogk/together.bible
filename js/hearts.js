@@ -31,10 +31,14 @@ function generateHeart(x, y, xBound, xStart, scale)
 }
 
 var before = Date.now();
-var id = setInterval(frame, 5);
+
+let id = setInterval(frame, 5);
 
 function frame()
 {
+  if(hearts.length == 0) {
+    clearInterval(id);
+  }
 	var current = Date.now();
 	var deltaTime = current - before;
 	before = current;
@@ -56,8 +60,10 @@ function frame()
 	}
 }
 
-function runHeartAnimation(numberOfHearts = 30)
+function heartAnimation(numberOfHearts = 1)
 {
+  if(hearts.length>0) {return}
+  id = setInterval(frame, 5);
   for(let x = 0; x < numberOfHearts; x++) {
     setTimeout(function() {
       var start = 1 - Math.round(Math.random()) * 2;
@@ -71,4 +77,4 @@ function runHeartAnimation(numberOfHearts = 30)
 
 }
 
-//heartAnimation(30)
+heartAnimation(30)
