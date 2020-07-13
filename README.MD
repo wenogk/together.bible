@@ -13,4 +13,5 @@ Some of the web apps features are:
     * An "Amen" button which when clicked plays a sound on everyone's computer/phone and does a nice floating heart runHeartAnimation
   * Decentralized data transmission using GunJS. No persisting database storage used at all for any of the functions of the site.
   * Mobile-first experience
+  * Share currently viewing chapter on mobile directly to other apps using Web Share API
   * Persistence of last read version/chapter of the bible on browser local storage
