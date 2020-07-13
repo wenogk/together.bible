@@ -60,7 +60,7 @@ function frame()
 	}
 }
 
-function heartAnimation(numberOfHearts = 30)
+function runHeartAnimation(numberOfHearts = 30)
 {
   if(hearts.length>0) {return}
   id = setInterval(frame, 5);
