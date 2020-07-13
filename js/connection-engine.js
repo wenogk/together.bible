@@ -149,8 +149,8 @@
                       let debugText = "nodeID: " + node.userID + " x: " + node.x + "/" + node.mX + " = " + ratioWidth(node.x, node.mX) + " y: " + node.y + "/" + node.mY + " = " + ratioHeight(node.y, node.mY) + " amen clicked: " + node.amenClicked;
                       if(document.body.contains(cursorExisting)) {
                         cursorExisting.style.display = "block";
-                        cursorExisting.style.top = ratioHeight(node.y, node.mY);
-                        cursorExisting.style.left = ratioWidth(node.x, node.mX);
+                        cursorExisting.style.top = (node.userID!==randomUserID) ? ratioHeight(node.y, node.mY) : node.y;
+                        cursorExisting.style.left = (node.userID!==randomUserID) ? ratioWidth(node.x, node.mX) : node.y;
 
                         document.getElementById("debug-" + nodeID).innerText = debugText;
                       } else {
@@ -240,9 +240,9 @@
             document.addEventListener("mouseup", function(event) { //listener for highlight text done in pc
               highlightTextInBible(document.getSelection().toString());
             }, false);
-            document.addEventListener('contextmenu', function(event) {
-              setTimeout(highlightTextInBible(document.getSelection().toString()), 1);
-            }); //listener for highlight text done in mobile
+            // document.addEventListener('contextmenu', function(event) {
+            //   setTimeout(highlightTextInBible(document.getSelection().toString()), 1);
+            // }); //listener for highlight text done in mobile
 
             connectionEngineGraph.map().on(function(node, nodeID){
               let timeNow = Math.floor(Date.now() / 1000);
