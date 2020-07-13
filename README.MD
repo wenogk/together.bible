@@ -1,6 +1,6 @@
 # Bible Together
 
-I started this open source MIT licensed project to allow people to open the bible on their browser and be connected to everyone else who is reading it at the same time, no matter where they are or what language / version of the bible they are reading. The point is to not allow them to really communicate with each other by voice/video/text chat but rather give them the feeling that they are not alone as they read the Bible.
+I started this open source project to allow people to open the bible on their browser and be connected to everyone else who is reading it at the same time, no matter where they are or what language / version of the bible they are reading. The point is to not allow them to really communicate with each other by voice/video/text chat but rather give them the feeling that they are not alone as they read the Bible.
 
 Some of the web apps features are:
   * Ability to select and open multiple languages / versions of the bible
