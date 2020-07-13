@@ -231,6 +231,12 @@
               addNewLocalCursor(randomUserID, (curX), (curY), randomColor, isAmenClicked, window.innerWidth, window.innerHeight)
             }, false);
 
+            document.addEventListener('touchmove', function(e) { //for mobile
+              curX = e.changedTouches[0].clientX;
+              curY = e.changedTouches[0].clientY;
+              addNewLocalCursor(randomUserID, (curX), (curY), randomColor, isAmenClicked, window.innerWidth, window.innerHeight)
+            }, false);
+
             connectionEngineGraph.map().on(function(node, nodeID){
               let timeNow = Math.floor(Date.now() / 1000);
               connectionEngineGraph.get(nodeID).bye().put(null);
