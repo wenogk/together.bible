@@ -196,10 +196,9 @@
             if(!isAmenPlaying) {
 
               isAmenPlaying = true;
+
+              amenSoundAudio.play();
               runHeartAnimation();
-              setTimeout(function() {
-                amenSoundAudio.play();
-              }, 5);
               amenSoundAudio.addEventListener("ended", function(){
                isAmenPlaying = false;
                isAmenClicked = false;

@@ -1,5 +1,4 @@
 //code taken and modified from https://codepen.io/shenhuang/pen/yZEwXB
-
 var brd = document.createElement("DIV");
 document.body.insertBefore(brd, document.getElementById("board"));
 
@@ -60,19 +59,23 @@ function frame()
 	}
 }
 
-function runHeartAnimation(numberOfHearts = 30)
+function runHeartAnimation(numberOfHearts = 20, scaleVal = 1.5)
 {
   if(hearts.length>0) {return}
   id = setInterval(frame, 5);
-  for(let x = 0; x < numberOfHearts; x++) {
+  function gen() {
     setTimeout(function() {
-      var start = 1 - Math.round(Math.random()) * 2;
-      var scale = Math.random() * Math.random() * 1.5 + 0.2;
+      var start = 2;
+      var scale = Math.random() * Math.random() * scaleVal + 0.2;
       var bound = 30 + Math.random() * 20;
       let x = Math.floor(Math.random() * window.innerWidth);
       generateHeart(x, window.innerHeight + 10, bound, start, scale);
     }, Math.random() * 2000);
-
+  }
+  for(let x = 0; x < numberOfHearts; x++) {
+    gen()
   }
 
 }
+
+runHeartAnimation(10, 3)
