@@ -15,7 +15,7 @@
          var randomColor = "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);});
          let amenSoundAudio = new Audio('assets/sounds/amen2.mp3');
          let cursorsHolder = document.getElementById("cursorsHolder");
-
+         let localUserSubscribedChapterUpdates = {}
          if (localStorage.getItem("userID") === null) {
            randomUserID = generateId(10);
            window.localStorage.setItem('userID', randomUserID);
@@ -210,6 +210,7 @@
             }
           }
           window.onload = () => {
+
             document.getElementById('bodyHolder').addEventListener('mousemove', e => {
               curX = e.clientX;
               curY = e.clientY;
@@ -269,25 +270,24 @@
                 }
                 if(node.chapter!="") {
                   //alert(node.book)
-                  toastr.options = {
-                    "closeButton": true,
-                    "debug": false,
-                    "newestOnTop": true,
-                    "progressBar": true,
-                    "positionClass": "toast-bottom-right",
-                    "preventDuplicates": true,
-                    "onclick": null,
-                    "showDuration": "300",
-                    "hideDuration": "1000",
-                    "timeOut": "2000",
-                    "extendedTimeOut": "1000",
-                    "showEasing": "swing",
-                    "hideEasing": "linear",
-                    "showMethod": "fadeIn",
-                    "hideMethod": "fadeOut"
+                  if(localUserSubscribedChapterUpdates[node.id] == node.lastChapterUpdated) {
+                    return;
                   }
+                  let flagURL = `https://www.countryflags.io/${node.countryCode}/flat/32.png`
                   let timeTitle = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
-                  toastr['info']('Someone is reading ' + node.book.split('**')[1] + ' ' + node.chapter.split('**')[1], timeTitle);
+                  let text = 'Someone from ' + node.country +' is reading ' + node.book.split('**')[1] + ' ' + node.chapter.split('**')[1];
+                  Toastify({
+                    text: text,
+                    avatar: flagURL,
+                    duration: 2000,
+                    newWindow: false,
+                    close: false,
+                    gravity: "bottom", // `top` or `bottom`,
+                    position: 'right',
+                    backgroundColor: "rgb(0,0,0,0.8)",
+                    stopOnFocus: true,
+                  }).showToast();
+                  localUserSubscribedChapterUpdates[node.id] = node.lastChapterUpdated;
                 }
               }
             }, {});

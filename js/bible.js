@@ -26,6 +26,12 @@ const languageList = document.querySelector(`#bible-language-list`);
 let languageHTML = ``;
 
 window.addEventListener('load', function() {
+  fetch('http://ip-api.com/json/')
+    .then(response => response.json())
+    .then(function(data) {
+      BIBLE_DATA_FOR_CONNECTION_ENGINE['country'] = data.country;
+      BIBLE_DATA_FOR_CONNECTION_ENGINE['countryCode'] = data.countryCode;
+    });
   getBibleVersions().then((biblelanguageList) => {
     const sortedVersions = sortVersionsByLanguage(biblelanguageList);
 
