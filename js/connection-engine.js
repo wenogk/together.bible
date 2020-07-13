@@ -48,14 +48,13 @@
             });
             if(local) {
               BIBLE_DATA_FOR_CONNECTION_ENGINE["highlighted"] = selectedText;
+              BIBLE_DATA_FOR_CONNECTION_ENGINE["lastHighlightUpdated"] = Math.floor(Date.now() / 1000);
               bibleGraphSendData();
             }
 
           }
         }
         function bibleGraphSendData() {
-          let timeNow = Math.floor(Date.now() / 1000);
-          BIBLE_DATA_FOR_CONNECTION_ENGINE["lastUpdated"] = timeNow;
           BIBLE_DATA_FOR_CONNECTION_ENGINE["userID"] = randomUserID;
           bibleInfoGraph.get(randomUserID).put(BIBLE_DATA_FOR_CONNECTION_ENGINE);
         }
@@ -256,16 +255,39 @@
             bibleInfoGraph.map().on(function(node, nodeID){
               let timeNow = Math.floor(Date.now() / 1000);
 
-              if(node!=null && (timeNow-node.lastUpdated)>5) {
-
-                //deleteCursorNode(nodeID);
-              } else if(node!=null) {
+              if(node!=null && (timeNow-node.lastHighlightUpdated)<5) {
                 if(node.userID == randomUserID) {
                   return;
                 }
                 if(node.highlighted!="") {
 
                   highlightTextInBible(node.highlighted, false);
+                }
+              } else if(node!=null && ((timeNow-node.lastChapterUpdated)<5)) {
+                if(node.userID == randomUserID) {
+                  return;
+                }
+                if(node.chapter!="") {
+                  //alert(node.book)
+                  toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "positionClass": "toast-bottom-right",
+                    "preventDuplicates": true,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "2000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                  }
+                  let timeTitle = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+                  toastr['info']('Someone is reading ' + node.book.split('**')[1] + ' ' + node.chapter.split('**')[1], timeTitle);
                 }
               }
             }, {});

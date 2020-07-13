@@ -24,24 +24,26 @@ let versionBooksObject = {}
 
 const languageList = document.querySelector(`#bible-language-list`);
 let languageHTML = ``;
-getBibleVersions().then((biblelanguageList) => {
-  const sortedVersions = sortVersionsByLanguage(biblelanguageList);
 
-  for (let languageGroup in sortedVersions) {
-    const language = languageGroup;
-    languageHTML += `<li><a class="dropdown-item" onclick="setLanguage('${language}')">${language}</a></li>`;
-    const versions = sortedVersions[languageGroup];
-    languageVersionObject[language] = [];
-    for (let version of versions) {
-      languageVersionObject[language].push(version)
+window.addEventListener('load', function() {
+  getBibleVersions().then((biblelanguageList) => {
+    const sortedVersions = sortVersionsByLanguage(biblelanguageList);
+
+    for (let languageGroup in sortedVersions) {
+      const language = languageGroup;
+      languageHTML += `<li><a class="dropdown-item" onclick="setLanguage('${language}')">${language}</a></li>`;
+      const versions = sortedVersions[languageGroup];
+      languageVersionObject[language] = [];
+      for (let version of versions) {
+        languageVersionObject[language].push(version)
+      }
+      languageHTML += `</div>`;
     }
-    languageHTML += `</div>`;
-  }
 
-  languageList.innerHTML = languageHTML;
-  setFromURL(window.location.href);
+    languageList.innerHTML = languageHTML;
+    setFromURL(window.location.href);
+  });
 });
-
 
 function setFromURL(url) {
   let l = getParameterByName("l" , url)
@@ -195,6 +197,9 @@ function setChapter(bibleVersionID, chapterID, num) {
   document.getElementById("chapterSelectButton").innerText = num;
   document.getElementById('mobile-nav-title').innerText = BIBLE_BOOK_NAME + " " + BIBLE_CHAPTER_NUM;
   document.body.scrollTop = document.documentElement.scrollTop = 0;
+  BIBLE_DATA_FOR_CONNECTION_ENGINE['lastChapterUpdated'] = Math.floor(Date.now() / 1000);
+  bibleGraphSendData()
+
 }
 
       /**
