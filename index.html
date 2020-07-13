@@ -9,6 +9,7 @@
       <title>Together.</title>
   </head>
   <body id="bodyHolder">
+    <div id="bodyContent" style="display:none;">
     <div id="connectionBanner">
       <div class="connectionBannerLeft">
       <button class="btn btn-primary btn-sm amenButton" onclick="amenClicked()" data-toggle="tooltip" data-placement="right" title="This will send a sound to everyone online!">Amen</button>
@@ -59,8 +60,8 @@
     </div>
 </nav>
 
-    <div id="bodyContent" class="container text-center" style="display:none;">
 
+      <div class="container text-center">
     <h1></h1>
     <div id="cursorsHolder"></div>
     <ul id="debugger"></ul>
@@ -89,6 +90,7 @@
       </div>
     </div>
   </div>
+</div>
 </div>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
