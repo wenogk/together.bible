@@ -238,7 +238,9 @@
             document.addEventListener("mouseup", function(event) { //listener for highlight text done in pc
               highlightTextInBible(document.getSelection().toString());
             }, false);
-            document.addEventListener('contextmenu', setTimeout(highlightTextInBible(document.getSelection().toString()), 1)); //listener for highlight text done in mobile
+            document.addEventListener('contextmenu', function(event) {
+              setTimeout(highlightTextInBible(document.getSelection().toString())}, 1);
+            }); //listener for highlight text done in mobile
 
             connectionEngineGraph.map().on(function(node, nodeID){
               let timeNow = Math.floor(Date.now() / 1000);
