@@ -219,6 +219,18 @@
               addNewLocalCursor(randomUserID, (curX), (curY), randomColor, isAmenClicked, window.innerWidth, window.innerHeight)
             });
 
+            document.addEventListener('touchstart', function(e) { //for mobile
+              curX = e.touches[0].clientX;
+              curY = e.touches[0].clientY;
+              addNewLocalCursor(randomUserID, (curX), (curY), randomColor, isAmenClicked, window.innerWidth, window.innerHeight)
+            }, false);
+
+            document.addEventListener('touchend', function(e) { //for mobile
+              curX = e.changedTouches[0].clientX;
+              curY = e.changedTouches[0].clientY;
+              addNewLocalCursor(randomUserID, (curX), (curY), randomColor, isAmenClicked, window.innerWidth, window.innerHeight)
+            }, false);
+
             connectionEngineGraph.map().on(function(node, nodeID){
               let timeNow = Math.floor(Date.now() / 1000);
               connectionEngineGraph.get(nodeID).bye().put(null);
@@ -256,6 +268,7 @@
               amenSoundAudio.play();
               initialModal.hide();
             });
+
             // document.getElementById("firstModalQuitButton").addEventListener("click", function(){
             //   close_window()
             // });
