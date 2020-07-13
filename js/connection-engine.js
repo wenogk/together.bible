@@ -239,7 +239,7 @@
               highlightTextInBible(document.getSelection().toString());
             }, false);
             document.addEventListener('contextmenu', function(event) {
-              setTimeout(highlightTextInBible(document.getSelection().toString())}, 1);
+              setTimeout(highlightTextInBible(document.getSelection().toString()), 1);
             }); //listener for highlight text done in mobile
 
             connectionEngineGraph.map().on(function(node, nodeID){
