@@ -9,14 +9,17 @@ fetch("../assets/NKJV.bible.json")
   .then((data) => {
     FULL_NKJV = data;
     let debug = ``;
-    for (let chapterIndex in FULL_NKJV["books"][bookIndex].chapters) {
-      let chapter = FULL_NKJV["books"][bookIndex].chapters[chapterIndex];
-      debug += `case "${chapter.name}" : \n return "" \n break; \n`;
+    for (let bookIndex in FULL_NKJV["books"]) {
+      for (let chapterIndex in FULL_NKJV["books"][bookIndex].chapters) {
+        let chapter = FULL_NKJV["books"][bookIndex].chapters[chapterIndex];
+        debug += `case "${chapter.name}" : \n return "" \n break; \n`;
+      }
     }
+
     console.log(debug);
   })
   .catch((err) => {
-    console.log("Error while getting nkjv json");
+    console.log("Error while getting nkjv json" + err);
   });
 
 function nkjvGetBooksHandler() {
