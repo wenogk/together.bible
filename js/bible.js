@@ -59,6 +59,7 @@ window.addEventListener("load", function () {
       let debug = ``;
       getBooks("de4e12af7f28f599-01").then((bookList) => {
         let index = 0;
+        let index2 = 0;
         for (let book of bookList) {
           let bookIDAPI = book.id;
           try {
@@ -68,7 +69,9 @@ window.addEventListener("load", function () {
           } catch {
             console.log("error " + bookIDAPI);
           }
+          index2 += 1;
         }
+        console.log("max nkjv: " + index + " - max api: " + index2);
         console.log(debug);
       });
 
