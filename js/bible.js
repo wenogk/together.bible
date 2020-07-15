@@ -89,9 +89,9 @@ function setFromURL(url) {
     //if the local storage contains the user's previous url, recursively call this function with that url instead
     setFromURL("#?" + CURRENT_URL_PARAMS);
   } else {
-    //if no params whatsoever, then display John 3 in the World English Bible
+    //if no params whatsoever, then display John 3 in the NKJV
     setFromURL(
-      "#?l=English&v=9879dbb7cfe39e4d-01&vn=World%20English%20Bible&va=WEB&b=JHN&bn=John&c=JHN.3&cn=3"
+      "#?l=English&v=nkjv&vn=New%20King%20James%20Version&va=NKJV&b=42&bn=John&c=0&cn=1"
     );
   }
 }
