@@ -27,7 +27,7 @@ function nkjvGetChapterHandler(bookIndex) {
 
 function nkjvGetTextByChapter(bookIndex, chapterIndex) {
   let versesArray = FULL_NKJV["books"][bookIndex].chapters[chapterIndex].verses;
-  let text = ``;
+  let text = ``; //l
   for (let verseIndex in versesArray) {
     text += versesArray[verseIndex].num + " " + versesArray[verseIndex].text;
   }
