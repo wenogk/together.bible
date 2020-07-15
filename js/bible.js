@@ -455,8 +455,8 @@ function chapterTextPrettify(text) {
   function bolden(match, offset, string) {
     return "<b> " + match + " </b> ";
   }
-  let numbersBolded = text.replace(/500|[0-9]\d?/g, bolden);
-  return numbersBolded.replace(/[¶]+/g, ""); // removes annoying ¶ idk what it is
+  //let numbersBolded = text.replace(/500|[0-9]\d?/g, bolden);
+  return text.replace(/[¶]+/g, ""); // removes annoying ¶ idk what it is
 }
 
 function getChapterText(bibleVersionID, bibleChapterID) {
@@ -481,4 +481,35 @@ function getChapterText(bibleVersionID, bibleChapterID) {
 
     xhr.send();
   });
+}
+
+function getSectionArray(bibleVersionID, bibleChapterID) {
+  let elem = document.createElement("div");
+  elem.innerHTML = getChapterText(bibleVersionID, bibleChapterID);
+  var sections = elem.children;
+  //console.log(children);
+  let sectionArray = [];
+  for (var j = 0; j < sections.length; j++) {
+    let singleSection = {};
+    var verses = sections[j].children;
+    let verseCounter = 1;
+    let isFirstVerseSet = false;
+    for (var i = 0; i < verses.length; i++) {
+      if (verses[i].nodeName.toLowerCase() === "span") {
+        let verseNumber = verses[i].getAttribute("data-number");
+        if (typeof verseNumber == "string" && verseNumber.length) {
+          if (!isFirstVerseSet) {
+            verseCounter = parseInt(verseNumber);
+            singleSection["firstVerse"] = verseCounter;
+            isFirstVerseSet = true;
+          }
+          //console.log("verse " + verseNumber);
+          verseCounter += 1;
+        }
+      }
+    }
+    singleSection["lastVerse"] = verseCounter - 1;
+    sectionArray.push(singleSection);
+  }
+  return sectionArray;
 }

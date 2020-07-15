@@ -41,7 +41,7 @@ function nkjvGetTextByChapter(bookIndex, chapterIndex) {
 function fetchSectionVerses(bookName, chapterIndex) {
   //BIBLE_BOOK_ID is the GEN part, should do GEN.chapterIndex
   let chapterID = nkjvBookNameToAPIBookID(bookName) + "." + (chapterIndex + 1);
-
+  console.log(getSectionArray("de4e12af7f28f599-01", chapterID));
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.withCredentials = false;
@@ -262,13 +262,5 @@ function shouldAllowBook(n) {
       return false;
     default:
       return true;
-  }
-}
-
-function gs1() {
-  let elem = document.getElementById("bible-chapter-text");
-  var children = elem.children;
-  for (var i = 0; i < children.length; i++) {
-    //children[i].
   }
 }
