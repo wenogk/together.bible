@@ -198,7 +198,7 @@ function nkjvBookNameToAPIBookID(n) {
   }
 }
 
-function shouldIgnoreBook(n) {
+function shouldAllowBook(n) {
   switch (n) {
     case "1ES":
       return false;

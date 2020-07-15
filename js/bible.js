@@ -64,7 +64,7 @@ window.addEventListener("load", function () {
         
         */
         for (let book of bookList) {
-          if (shouldIgnoreBook(book.id)) {
+          if (!shouldAllowBook(book.id)) {
             console.log("ignored " + book.id);
             continue;
           }
