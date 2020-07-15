@@ -79,7 +79,7 @@ function useSection(sectionArray, versesArray) {
   let text = "";
   for (let s in sectionArray) {
     let min = sectionArray[s].firstVerse - 1;
-    let max = sectionArray[s].lastVerse - 1;
+    let max = sectionArray[s].lastVerse;
     text += "<p>";
     for (let v = min; v < max; v++) {
       text += `<span class="v" data-number="${versesArray[v].num}">${versesArray[v].num}</span> ${versesArray[v].text}`;
