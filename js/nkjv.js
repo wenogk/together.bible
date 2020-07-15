@@ -1,4 +1,5 @@
 //A wrapper to add the NKJV bible alongside the bible versions that API.BIBLE provides
+let API_KEY_2 = "8f9a8691f65ba3301a5d8373a350feea"; //api.bible public API key
 
 let FULL_NKJV = ``;
 
@@ -56,7 +57,7 @@ function fetchSectionVerses(bookName, chapterIndex) {
       `GET`,
       `https://api.scripture.api.bible/v1/bibles/v1/bibles/de4e12af7f28f599-01/chapters/${chapterID}/sections`
     );
-    xhr.setRequestHeader(`api-key`, API_KEY);
+    xhr.setRequestHeader(`api-key`, API_KEY_2);
 
     xhr.onerror = () => reject(xhr.statusText);
 
