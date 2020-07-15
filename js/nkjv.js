@@ -30,12 +30,17 @@ function nkjvGetTextByChapter(bookIndex, chapterIndex) {
   for (let verseIndex in versesArray) {
     text += versesArray[verseIndex].num + " " + versesArray[verseIndex].text;
   }
+  let bookNameNKJV = FULL_NKJV["books"][bookIndex].name;
+  fetchSectionVerses(bookNameNKJV, chapterIndex).then((sections) => {
+    console.log("SECTIONS: " + sections);
+  });
   return text;
 }
 
 function fetchSectionVerses(bookName, chapterIndex) {
   //BIBLE_BOOK_ID is the GEN part, should do GEN.chapterIndex
-  let chapterID = nkjvBookNameToAPIBookID(bookName);
+  let chapterID = nkjvBookNameToAPIBookID(bookName) + "." + (chapterIndex + 1);
+
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.withCredentials = false;
@@ -62,143 +67,169 @@ function fetchSectionVerses(bookName, chapterIndex) {
 function nkjvBookNameToAPIBookID(n) {
   switch (n) {
     case "Genesis":
-      return "";
+      return "GEN";
     case "Exodus":
-      return "";
+      return "EXO";
     case "Leviticus":
-      return "";
+      return "LEV";
     case "Numbers":
-      return "";
+      return "NUM";
     case "Deuteronomy":
-      return "";
+      return "DEU";
     case "Joshua":
-      return "";
+      return "JOS";
     case "Judges":
-      return "";
+      return "JDG";
     case "Ruth":
-      return "";
+      return "RUT";
     case "1 Samuel":
-      return "";
+      return "1SA";
     case "2 Samuel":
-      return "";
+      return "2SA";
     case "1 Kings":
-      return "";
+      return "1KI";
     case "2 Kings":
-      return "";
+      return "2KI";
     case "1 Chronicles":
-      return "";
+      return "1CH";
     case "2 Chronicles":
-      return "";
+      return "2CH";
     case "Ezra":
-      return "";
+      return "EZR";
     case "Nehemiah":
-      return "";
+      return "NEH";
     case "Esther":
-      return "";
+      return "EST";
     case "Job":
-      return "";
+      return "JOB";
     case "Psalm":
-      return "";
+      return "PSA";
     case "Proverbs":
-      return "";
+      return "PRO";
     case "Ecclesiastes":
-      return "";
+      return "ECC";
     case "Song of Solomon":
-      return "";
+      return "SNG";
     case "Isaiah":
-      return "";
+      return "ISA";
     case "Jeremiah":
-      return "";
+      return "JER";
     case "Lamentations":
-      return "";
+      return "LAM";
     case "Ezekiel":
-      return "";
+      return "EZK";
     case "Daniel":
-      return "";
+      return "DAN";
     case "Hosea":
-      return "";
+      return "HOS";
     case "Joel":
-      return "";
+      return "JOL";
     case "Amos":
-      return "";
+      return "AMO";
     case "Obadiah":
-      return "";
+      return "OBA";
     case "Jonah":
-      return "";
+      return "JON";
     case "Micah":
-      return "";
+      return "MIC";
     case "Nahum":
-      return "";
+      return "NAM";
     case "Habakkuk":
-      return "";
+      return "HAB";
     case "Zephaniah":
-      return "";
+      return "ZEP";
     case "Haggai":
-      return "";
+      return "HAG";
     case "Zechariah":
-      return "";
+      return "ZEC";
     case "Malachi":
-      return "";
+      return "MAL";
     case "Matthew":
-      return "";
+      return "MAT";
     case "Mark":
-      return "";
+      return "MRK";
     case "Luke":
-      return "";
+      return "LUK";
     case "John":
-      return "";
+      return "JHN";
     case "Acts":
-      return "";
+      return "ACT";
     case "Romans":
-      return "";
+      return "ROM";
     case "1 Corinthians":
-      return "";
+      return "1CO";
     case "2 Corinthians":
-      return "";
+      return "2CO";
     case "Galatians":
-      return "";
+      return "GAL";
     case "Ephesians":
-      return "";
+      return "EPH";
     case "Philippians":
-      return "";
+      return "PHP";
     case "Colossians":
-      return "";
+      return "COL";
     case "1 Thessalonians":
-      return "";
+      return "1TH";
     case "2 Thessalonians":
-      return "";
+      return "2TH";
     case "1 Timothy":
-      return "";
+      return "1TI";
     case "2 Timothy":
-      return "";
+      return "2TI";
     case "Titus":
-      return "";
+      return "TIT";
     case "Philemon":
-      return "";
+      return "PHM";
     case "Hebrews":
-      return "";
+      return "HEB";
     case "James":
-      return "";
+      return "JAS";
     case "1 Peter":
-      return "";
+      return "1PE";
     case "2 Peter":
-      return "";
+      return "2PE";
     case "1 John":
-      return "";
+      return "1JN";
     case "2 John":
-      return "";
+      return "2JN";
     case "3 John":
-      return "";
+      return "3JN";
     case "Jude":
-      return "";
+      return "JUD";
     case "Revelation":
-      return "";
+      return "REV";
     default:
       return n;
   }
 }
 
 function shouldAllowBook(n) {
+  /* DEBUG CODE
+    let debug = ``;
+      getBooks("de4e12af7f28f599-01").then((bookList) => {
+        let index = 0;
+        let index2 = 0;
+       for (let book of bookList) {
+        if (!shouldAllowBook(book.id)) {
+          //console.log("ignored " + book.id);
+          continue;
+        }
+        let bookIDAPI = book.id;
+        try {
+          let bookNameNKJV = FULL_NKJV["books"][index].name;
+          debug += `case "${bookNameNKJV}" : \n return "${bookIDAPI}" \n`;
+        } catch {
+          //console.log("error " + bookIDAPI);
+          debug += `case "undefined" : \n return "${bookIDAPI}" \n`;
+        }
+        index += 1;
+        index2 += 1;
+      }
+      //console.log("max nkjv: " + index + " - max api: " + index2);
+      console.log(debug);
+    });
+    */
+
   switch (n) {
     case "1ES":
       return false;

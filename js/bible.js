@@ -55,35 +55,6 @@ window.addEventListener("load", function () {
     })
     .then((data) => {
       FULL_NKJV = data;
-      //start debug
-      let debug = ``;
-      getBooks("de4e12af7f28f599-01").then((bookList) => {
-        let index = 0;
-        let index2 = 0;
-        /*
-        
-        */
-        for (let book of bookList) {
-          if (!shouldAllowBook(book.id)) {
-            console.log("ignored " + book.id);
-            continue;
-          }
-          let bookIDAPI = book.id;
-          try {
-            let bookNameNKJV = FULL_NKJV["books"][index].name;
-            debug += `case "${bookNameNKJV}" : \n return "${bookIDAPI}" \n`;
-          } catch {
-            console.log("error " + bookIDAPI);
-            debug += `case "undefined" : \n return "${bookIDAPI}" \n`;
-          }
-          index += 1;
-          index2 += 1;
-        }
-        console.log("max nkjv: " + index + " - max api: " + index2);
-        console.log(debug);
-      });
-
-      //end debug
     })
     .catch((err) => {
       console.log("Error while getting nkjv json" + err);
