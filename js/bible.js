@@ -460,7 +460,7 @@ function chapterTextPrettify(text) {
 }
 
 function getChapterText(bibleVersionID, bibleChapterID) {
-  console.log(`calling getChapterText(${bibleVersionID},${bibleChapterID})`);
+  //console.log(`calling getChapterText(${bibleVersionID},${bibleChapterID})`);
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.withCredentials = false;
@@ -515,6 +515,6 @@ function getSectionArray(bibleVersionID, bibleChapterID) {
       singleSection["lastVerse"] = verseCounter - 1;
       sectionArray.push(singleSection);
     }
-    return sectionArray;
+    console.log(sectionArray);
   });
 }
