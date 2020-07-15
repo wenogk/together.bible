@@ -10,10 +10,8 @@ fetch("../assets/NKJV.bible.json")
     FULL_NKJV = data;
     let debug = ``;
     for (let bookIndex in FULL_NKJV["books"]) {
-      for (let chapterIndex in FULL_NKJV["books"][bookIndex].chapters) {
-        let chapter = FULL_NKJV["books"][bookIndex].chapters[chapterIndex];
-        debug += `case "${chapter.name}" : \n return "" \n break; \n`;
-      }
+      let book = FULL_NKJV["books"][bookIndex];
+      debug += `case "${book.name}" : \n return "" \n break; \n`;
     }
 
     console.log(debug);
