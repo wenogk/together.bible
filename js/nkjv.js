@@ -40,7 +40,8 @@ function nkjvGetTextByChapter(bookIndex, chapterIndex) {
 
 function fetchSectionVerses(bookName, chapterIndex) {
   //BIBLE_BOOK_ID is the GEN part, should do GEN.chapterIndex
-  let chapterID = nkjvBookNameToAPIBookID(bookName) + "." + (chapterIndex + 1);
+  let chapterID =
+    nkjvBookNameToAPIBookID(bookName) + "." + (parseInt(chapterIndex) + 1);
   console.log(getSectionArray("de4e12af7f28f599-01", chapterID));
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
