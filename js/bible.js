@@ -135,6 +135,16 @@ function setLanguage(language) {
     versionList.innerHTML = "";
     let versionHTML = ``;
     for (let version of languageVersionObject[languageVal]) {
+      if (language == "English") {
+        if (
+          !(
+            version.id == "9879dbb7cfe39e4d-01" ||
+            version.id == "de4e12af7f28f599-01"
+          )
+        ) {
+          continue;
+        }
+      }
       versionHTML += `<a class="dropdown-item" onclick="setVersion('${version.id}','${version.name}','${version.abbreviation}')">${version.name}</a>`;
     }
     versionList.innerHTML = versionHTML;
