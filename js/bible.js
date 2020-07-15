@@ -460,6 +460,7 @@ function chapterTextPrettify(text) {
 }
 
 function getChapterText(bibleVersionID, bibleChapterID) {
+  console.log(`calling getChapterText(${bibleVersionID},${bibleChapterID})`);
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.withCredentials = false;
@@ -485,6 +486,7 @@ function getChapterText(bibleVersionID, bibleChapterID) {
 
 function getSectionArray(bibleVersionID, bibleChapterID) {
   let elem = document.createElement("div");
+
   getChapterText(bibleVersionID, bibleChapterID).then((textVal) => {
     console.log("getSectionArray chapter call: " + textVal);
     elem.innerHTML = textVal;
