@@ -65,8 +65,9 @@ window.addEventListener("load", function () {
           debug += `case "${bookNameNKJV}" : \n return "${bookIDAPI}" \n break; \n`;
           index += 1;
         }
+        console.log(debug);
       });
-      console.log(debug);
+
       //end debug
     })
     .catch((err) => {
