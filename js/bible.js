@@ -233,11 +233,7 @@ function setBook(bibleVersionID, bibleBookID, name) {
 function setChapter(bibleVersionID, chapterID, num) {
   const chapterTextElement = document.querySelector(`#bible-chapter-text`);
   if (bibleVersionID === "nkjv") {
-    let pretty = chapterTextPrettify(
-      nkjvGetTextByChapter(BIBLE_BOOK_ID, chapterID)
-    );
-    BIBLE_CHAPTER_TEXT = pretty;
-    chapterTextElement.innerHTML = pretty;
+    nkjvGetTextByChapter(BIBLE_BOOK_ID, chapterID);
   } else {
     getChapterText(bibleVersionID, chapterID).then((content) => {
       let pretty = chapterTextPrettify(content);
@@ -485,10 +481,9 @@ function getChapterText(bibleVersionID, bibleChapterID) {
 }
 
 function getSectionArray(bibleVersionID, bibleChapterID) {
-  let elem = document.createElement("div");
-
   getChapterText(bibleVersionID, bibleChapterID).then((textVal) => {
-    console.log("getSectionArray chapter call: " + textVal);
+    //console.log("getSectionArray chapter call: " + textVal);
+    let elem = document.createElement("div");
     elem.innerHTML = textVal;
     var sections = elem.children;
     //console.log(children);

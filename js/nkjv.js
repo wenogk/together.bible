@@ -26,18 +26,66 @@ function nkjvGetChapterHandler(bookIndex) {
 }
 
 function nkjvGetTextByChapter(bookIndex, chapterIndex) {
-  let versesArray = FULL_NKJV["books"][bookIndex].chapters[chapterIndex].verses;
+  /*
   let text = ``; //l
   for (let verseIndex in versesArray) {
     text += versesArray[verseIndex].num + " " + versesArray[verseIndex].text;
   }
+  */
   let bookNameNKJV = FULL_NKJV["books"][bookIndex].name;
   console.log("chapterIndex - " + chapterIndex);
   let chapterID =
     nkjvBookNameToAPIBookID(bookNameNKJV) + "." + (parseInt(chapterIndex) + 1);
   console.log("chapterID - " + chapterID);
-  getSectionArray("de4e12af7f28f599-01", chapterID);
-  return text;
+
+  getChapterText("de4e12af7f28f599-01", chapterID).then((textVal) => {
+    //console.log("getSectionArray chapter call: " + textVal);
+    let elem = document.createElement("div");
+    elem.innerHTML = textVal;
+    var sections = elem.children;
+    //console.log(children);
+    let sectionArray = [];
+    for (var j = 0; j < sections.length; j++) {
+      let singleSection = {};
+      var verses = sections[j].children;
+      let verseCounter = 1;
+      let isFirstVerseSet = false;
+      for (var i = 0; i < verses.length; i++) {
+        if (verses[i].nodeName.toLowerCase() === "span") {
+          let verseNumber = verses[i].getAttribute("data-number");
+          if (typeof verseNumber == "string" && verseNumber.length) {
+            if (!isFirstVerseSet) {
+              verseCounter = parseInt(verseNumber);
+              singleSection["firstVerse"] = verseCounter;
+              isFirstVerseSet = true;
+            }
+            //console.log("verse " + verseNumber);
+            verseCounter += 1;
+          }
+        }
+      }
+      singleSection["lastVerse"] = verseCounter - 1;
+      sectionArray.push(singleSection);
+    }
+    let versesArray =
+      FULL_NKJV["books"][bookIndex].chapters[chapterIndex].verses;
+    let pretty = chapterTextPrettify(useSection(sectionArray, versesArray));
+    BIBLE_CHAPTER_TEXT = pretty;
+    document.querySelector(`#bible-chapter-text`).innerHTML = pretty;
+  });
+}
+
+function useSection(sectionArray, versesArray) {
+  let text = "";
+  for (let s in sectionArray) {
+    let min = sectionArray[s].firstVerse - 1;
+    let max = sectionArray[s].lastVerse - 1;
+    text += "<p>";
+    for (let v = min; v < max; v++) {
+      text += `<span class="v" data-number="${versesArray[v].num}">${versesArray[v].num}</span> ${versesArray[v].text}`;
+    }
+    text += "</p>";
+  }
 }
 
 function fetchSectionVerses(bookName, chapterIndex) {
