@@ -138,6 +138,9 @@ function setLanguage(language) {
     const versionList = document.querySelector(`#bible-version-list`);
     versionList.innerHTML = "";
     let versionHTML = ``;
+    if (language == "English") {
+      versionHTML += `<a class="dropdown-item" onclick="setVersion('nkjv','New King James Version','NKJV')">New King James Version (NKJV)</a>`;
+    }
     for (let version of languageVersionObject[languageVal]) {
       if (language == "English") {
         if (
@@ -151,6 +154,7 @@ function setLanguage(language) {
       }
       versionHTML += `<a class="dropdown-item" onclick="setVersion('${version.id}','${version.name}','${version.abbreviation}')">${version.name}</a>`;
     }
+
     versionList.innerHTML = versionHTML;
   }
 
@@ -166,16 +170,20 @@ function setLanguage(language) {
 
 function setVersion(id, name, abbr) {
   refreshSelects(2);
-  getBooks(id).then((bookList) => {
-    CURRENT_SELECTED_BIBLE_BOOK_LIST = [...bookList];
-    const bookListElement = document.querySelector(`#bible-book-list`);
-    bookListElement.innerHTML = "";
-    let bookHTML = ``;
-    for (let book of bookList) {
-      bookHTML += `<a class="dropdown-item" onclick="setBook('${id}','${book.id}','${book.name}')">${book.name}</a>`;
-    }
-    bookListElement.innerHTML = bookHTML;
-  });
+  if (id === "nkjv") {
+    nkjvGetBooksHandler();
+  } else {
+    getBooks(id).then((bookList) => {
+      CURRENT_SELECTED_BIBLE_BOOK_LIST = [...bookList];
+      const bookListElement = document.querySelector(`#bible-book-list`);
+      bookListElement.innerHTML = "";
+      let bookHTML = ``;
+      for (let book of bookList) {
+        bookHTML += `<a class="dropdown-item" onclick="setBook('${id}','${book.id}','${book.name}')">${book.name}</a>`;
+      }
+      bookListElement.innerHTML = bookHTML;
+    });
+  }
 
   BIBLE_VERSION = name;
   BIBLE_VERSION_ID = id;
@@ -189,15 +197,19 @@ function setVersion(id, name, abbr) {
 function setBook(bibleVersionID, bibleBookID, name) {
   refreshSelects(3);
   //bible-chapter-list
-  getChapters(bibleVersionID, bibleBookID).then((chapterList) => {
-    const chapterListElement = document.querySelector(`#bible-chapter-list`);
-    chapterListElement.innerHTML = "";
-    let chapterHTML = ``;
-    for (let chapter of chapterList) {
-      chapterHTML += `<a class="dropdown-item" onclick="setChapter('${bibleVersionID}','${chapter.id}','${chapter.number}')" data-toggle="collapse" data-target=".navbar-collapse.show"> ${chapter.number} </a>`;
-    }
-    chapterListElement.innerHTML = chapterHTML;
-  });
+  if (bibleVersionID === "nkjv") {
+    nkjvGetChapterHandler(bibleBookID);
+  } else {
+    getChapters(bibleVersionID, bibleBookID).then((chapterList) => {
+      const chapterListElement = document.querySelector(`#bible-chapter-list`);
+      chapterListElement.innerHTML = "";
+      let chapterHTML = ``;
+      for (let chapter of chapterList) {
+        chapterHTML += `<a class="dropdown-item" onclick="setChapter('${bibleVersionID}','${chapter.id}','${chapter.number}')" data-toggle="collapse" data-target=".navbar-collapse.show"> ${chapter.number} </a>`;
+      }
+      chapterListElement.innerHTML = chapterHTML;
+    });
+  }
 
   BIBLE_BOOK_ID = bibleBookID;
   BIBLE_DATA_FOR_CONNECTION_ENGINE["book"] = BIBLE_BOOK_ID + "**" + name;
@@ -210,11 +222,20 @@ function setBook(bibleVersionID, bibleBookID, name) {
 
 function setChapter(bibleVersionID, chapterID, num) {
   const chapterTextElement = document.querySelector(`#bible-chapter-text`);
-  getChapterText(bibleVersionID, chapterID).then((content) => {
-    let pretty = chapterTextPrettify(content);
+  if (bibleVersionID === "nkjv") {
+    let pretty = chapterTextPrettify(
+      nkjvGetTextByChapter(BIBLE_BOOK_ID, chapterID)
+    );
     BIBLE_CHAPTER_TEXT = pretty;
     chapterTextElement.innerHTML = pretty;
-  });
+  } else {
+    getChapterText(bibleVersionID, chapterID).then((content) => {
+      let pretty = chapterTextPrettify(content);
+      BIBLE_CHAPTER_TEXT = pretty;
+      chapterTextElement.innerHTML = pretty;
+    });
+  }
+
   BIBLE_CHAPTER = chapterID;
   BIBLE_CHAPTER_NUM = num;
   BIBLE_DATA_FOR_CONNECTION_ENGINE["chapter"] = BIBLE_CHAPTER + "**" + num;
