@@ -1,6 +1,6 @@
 //A wrapper to add the NKJV bible alongside the bible versions that API.BIBLE provides
 
-const FULL_NKJV = ``;
+let FULL_NKJV = ``;
 
 fetch("../assets/NKJV.bible.json")
   .then((response) => {
