@@ -17,20 +17,21 @@ let BIBLE_CHAPTER_NUM = ""; //Chapter of bible
 let BIBLE_CHAPTER_TEXT = "";
 let CURRENT_URL_PARAMS = localStorage.getItem("CURRENT_URL_PARAMS");
 
-let BIBLE_DATA_FOR_CONNECTION_ENGINE = {};
+let BIBLE_DATA_FOR_CONNECTION_ENGINE = {}; //this info will be sent to other peers when current user chapter is changed and for highlights in the text
 let languageVersionObject = {};
 let versionBooksObject = {};
 
 const languageList = document.querySelector(`#bible-language-list`);
-let languageHTML = ``;
+let languageHTML = ``; //holds the html of the list of languages from the bible API
 
 window.addEventListener("load", function () {
-  fetch("https://freegeoip.app/json/")
+  fetch("https://freegeoip.app/json/") // to get the location of the user based on their ip address
     .then((response) => response.json())
     .then(function (data) {
       BIBLE_DATA_FOR_CONNECTION_ENGINE["country"] = data.country_name;
       BIBLE_DATA_FOR_CONNECTION_ENGINE["countryCode"] = data.country_code;
     });
+
   getBibleVersions().then((biblelanguageList) => {
     const sortedVersions = sortVersionsByLanguage(biblelanguageList);
 
@@ -51,7 +52,7 @@ window.addEventListener("load", function () {
 });
 
 function setFromURL(url) {
-  let l = getParameterByName("l", url);
+  let l = getParameterByName("l", url); //language name
   let v = getParameterByName("v", url); //version id
   let vn = getParameterByName("vn", url); //version name
   let va = getParameterByName("va", url); //version abbreviation
@@ -59,6 +60,7 @@ function setFromURL(url) {
   let bn = getParameterByName("bn", url); //book name
   let c = getParameterByName("c", url); //chapter id
   let cn = getParameterByName("cn", url); //chapter number
+  //if all the params are set in the url argument, then set everything and display the chapter, else display whatevers available
   if (l && v && b && c) {
     setLanguage(l);
     setVersion(v, vn, va);
@@ -74,8 +76,10 @@ function setFromURL(url) {
   } else if (l) {
     setLanguage(l);
   } else if (CURRENT_URL_PARAMS !== null) {
+    //if the local storage contains the user's previous url, recursively call this function with that url instead
     setFromURL("#?" + CURRENT_URL_PARAMS);
   } else {
+    //if no params whatsoever, then display Romans 10 in the King James Version
     setFromURL(
       "#?l=English&v=de4e12af7f28f599-01&vn=King%20James%20(Authorised)%20Version&va=engKJV&b=ROM&bn=Romans&c=ROM.10&cn=10"
     );
@@ -105,7 +109,7 @@ function shareClicked() {
 }
 
 function refreshSelects(level) {
-  //level can be 1 for language, 2 for version, 3 for book
+  //level 1 for language, 2 for version, 3 for book
   if (level == 1) {
     document.getElementById("versionSelectButton").innerText = "Version";
 
