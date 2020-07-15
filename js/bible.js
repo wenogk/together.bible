@@ -60,9 +60,9 @@ window.addEventListener("load", function () {
       getBooks("de4e12af7f28f599-01").then((bookList) => {
         let index = 0;
         for (let book of bookList) {
+          let bookIDAPI = book.id;
           try {
             let bookNameNKJV = FULL_NKJV["books"][index].name;
-            let bookIDAPI = book.id;
             debug += `case "${bookNameNKJV}" : \n return "${bookIDAPI}" \n`;
             index += 1;
           } catch {
