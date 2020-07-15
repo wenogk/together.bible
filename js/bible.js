@@ -65,10 +65,11 @@ window.addEventListener("load", function () {
           try {
             let bookNameNKJV = FULL_NKJV["books"][index].name;
             debug += `case "${bookNameNKJV}" : \n return "${bookIDAPI}" \n`;
-            index += 1;
           } catch {
             console.log("error " + bookIDAPI);
+            debug += `case "undefined" : \n return "${bookIDAPI}" \n`;
           }
+          index += 1;
           index2 += 1;
         }
         console.log("max nkjv: " + index + " - max api: " + index2);
