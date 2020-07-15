@@ -2,23 +2,7 @@
 
 let FULL_NKJV = ``;
 
-fetch("../assets/NKJV.bible.json")
-  .then((response) => {
-    return response.json();
-  })
-  .then((data) => {
-    FULL_NKJV = data;
-    let debug = ``;
-    for (let bookIndex in FULL_NKJV["books"]) {
-      let book = FULL_NKJV["books"][bookIndex];
-      debug += `case "${book.name}" : \n return "" \n break; \n`;
-    }
 
-    console.log(debug);
-  })
-  .catch((err) => {
-    console.log("Error while getting nkjv json" + err);
-  });
 
 function nkjvGetBooksHandler() {
   const bookListElement = document.querySelector(`#bible-book-list`);
@@ -51,8 +35,9 @@ function nkjvGetTextByChapter(bookIndex, chapterIndex) {
   return text;
 }
 
-function fetchSectionVerses(chapterName) {
-  let chapterID = nkjvChapterNameToAPIChapterID(chapterName);
+function fetchSectionVerses(bookName, chapterIndex) {
+  //BIBLE_BOOK_ID is the GEN part, should do GEN.chapterIndex
+  let chapterID = nkjvBookNameToAPIBookID(bookName);
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.withCredentials = false;
@@ -76,19 +61,141 @@ function fetchSectionVerses(chapterName) {
   });
 }
 
-function nkjvChapterNameToAPIChapterID(n) {
-  return n;
+function nkjvBookNameToAPIBookID(n) {
   switch (n) {
     case "Genesis":
-      return "GEN";
-      break;
+      return "";
     case "Exodus":
-      return "EXO";
-      break;
+      return "";
     case "Leviticus":
       return "";
-      break;
     case "Numbers":
-      break;
+      return "";
+    case "Deuteronomy":
+      return "";
+    case "Joshua":
+      return "";
+    case "Judges":
+      return "";
+    case "Ruth":
+      return "";
+    case "1 Samuel":
+      return "";
+    case "2 Samuel":
+      return "";
+    case "1 Kings":
+      return "";
+    case "2 Kings":
+      return "";
+    case "1 Chronicles":
+      return "";
+    case "2 Chronicles":
+      return "";
+    case "Ezra":
+      return "";
+    case "Nehemiah":
+      return "";
+    case "Esther":
+      return "";
+    case "Job":
+      return "";
+    case "Psalm":
+      return "";
+    case "Proverbs":
+      return "";
+    case "Ecclesiastes":
+      return "";
+    case "Song of Solomon":
+      return "";
+    case "Isaiah":
+      return "";
+    case "Jeremiah":
+      return "";
+    case "Lamentations":
+      return "";
+    case "Ezekiel":
+      return "";
+    case "Daniel":
+      return "";
+    case "Hosea":
+      return "";
+    case "Joel":
+      return "";
+    case "Amos":
+      return "";
+    case "Obadiah":
+      return "";
+    case "Jonah":
+      return "";
+    case "Micah":
+      return "";
+    case "Nahum":
+      return "";
+    case "Habakkuk":
+      return "";
+    case "Zephaniah":
+      return "";
+    case "Haggai":
+      return "";
+    case "Zechariah":
+      return "";
+    case "Malachi":
+      return "";
+    case "Matthew":
+      return "";
+    case "Mark":
+      return "";
+    case "Luke":
+      return "";
+    case "John":
+      return "";
+    case "Acts":
+      return "";
+    case "Romans":
+      return "";
+    case "1 Corinthians":
+      return "";
+    case "2 Corinthians":
+      return "";
+    case "Galatians":
+      return "";
+    case "Ephesians":
+      return "";
+    case "Philippians":
+      return "";
+    case "Colossians":
+      return "";
+    case "1 Thessalonians":
+      return "";
+    case "2 Thessalonians":
+      return "";
+    case "1 Timothy":
+      return "";
+    case "2 Timothy":
+      return "";
+    case "Titus":
+      return "";
+    case "Philemon":
+      return "";
+    case "Hebrews":
+      return "";
+    case "James":
+      return "";
+    case "1 Peter":
+      return "";
+    case "2 Peter":
+      return "";
+    case "1 John":
+      return "";
+    case "2 John":
+      return "";
+    case "3 John":
+      return "";
+    case "Jude":
+      return "";
+    case "Revelation":
+      return "";
+    default:
+    return n;
   }
 }

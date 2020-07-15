@@ -34,7 +34,6 @@ window.addEventListener("load", function () {
 
   getBibleVersions().then((biblelanguageList) => {
     const sortedVersions = sortVersionsByLanguage(biblelanguageList);
-
     for (let languageGroup in sortedVersions) {
       const language = languageGroup;
       languageHTML += `<li><a class="dropdown-item" onclick="setLanguage('${language}')">${language}</a></li>`;
@@ -49,6 +48,30 @@ window.addEventListener("load", function () {
     languageList.innerHTML = languageHTML;
     setFromURL(window.location.href);
   });
+
+  fetch("../assets/NKJV.bible.json")
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      FULL_NKJV = data;
+      //start debug
+      let debug = ``;
+      getBooks("de4e12af7f28f599-01").then((bookList) => {
+        let index = 0;
+        for (let book of bookList) {
+          let bookNameNKJV = FULL_NKJV["books"][index];
+          let bookIDAPI = book.id;
+          debug += `case "${bookNameNKJV}" : \n return "${bookIDAPI}" \n break; \n`;
+          index += 1;
+        }
+      });
+      console.log(debug);
+      //end debug
+    })
+    .catch((err) => {
+      console.log("Error while getting nkjv json" + err);
+    });
 });
 
 function setFromURL(url) {
