@@ -55,7 +55,7 @@ function fetchSectionVerses(bookName, chapterIndex) {
 
     xhr.open(
       `GET`,
-      `https://api.scripture.api.bible/v1/bibles/v1/bibles/de4e12af7f28f599-01/chapters/${chapterID}/sections`
+      `https://api.scripture.api.bible/bibles/de4e12af7f28f599-01/chapters/${chapterID}/sections`
     );
     xhr.setRequestHeader(`api-key`, API_KEY_2);
 
