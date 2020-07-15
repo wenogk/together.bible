@@ -32,17 +32,16 @@ function nkjvGetTextByChapter(bookIndex, chapterIndex) {
     text += versesArray[verseIndex].num + " " + versesArray[verseIndex].text;
   }
   let bookNameNKJV = FULL_NKJV["books"][bookIndex].name;
-  fetchSectionVerses(bookNameNKJV, chapterIndex).then((sections) => {
-    console.log("SECTIONS: " + sections);
-  });
+  console.log("chapterIndex - " + chapterIndex);
+  let chapterID =
+    nkjvBookNameToAPIBookID(bookName) + "." + (parseInt(chapterIndex) + 1);
+  console.log(getSectionArray("de4e12af7f28f599-01", chapterID));
   return text;
 }
 
 function fetchSectionVerses(bookName, chapterIndex) {
   //BIBLE_BOOK_ID is the GEN part, should do GEN.chapterIndex
-  let chapterID =
-    nkjvBookNameToAPIBookID(bookName) + "." + (parseInt(chapterIndex) + 1);
-  console.log(getSectionArray("de4e12af7f28f599-01", chapterID));
+
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.withCredentials = false;
