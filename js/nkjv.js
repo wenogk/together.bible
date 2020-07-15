@@ -37,6 +37,10 @@ function nkjvGetChapterHandler(bookIndex) {
 }
 
 function nkjvGetTextByChapter(bookIndex, chapterIndex) {
-  let text = FULL_NKJV["books"][bookIndex].chapters[chapterIndex].join("");
+  let versesArray = FULL_NKJV["books"][bookIndex].chapters[chapterIndex].verses;
+  let text = ``;
+  for (let verseIndex in versesArray) {
+    text += versesArray[verseIndex].num + " " + versesArray[verseIndex].text;
+  }
   return text;
 }
