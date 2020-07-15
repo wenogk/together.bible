@@ -264,3 +264,11 @@ function shouldAllowBook(n) {
       return true;
   }
 }
+
+function gs1() {
+  let elem = document.getElementById("bible-chapter-text");
+  var children = elem.children;
+  for (var i = 0; i < children.length; i++) {
+    //children[i].
+  }
+}
