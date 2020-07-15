@@ -15,7 +15,7 @@ let BIBLE_CHAPTER = ""; //Chapter of bible
 let BIBLE_CHAPTER_NUM = ""; //Chapter of bible
 
 let BIBLE_CHAPTER_TEXT = "";
-let CURRENT_URL_PARAMS = localStorage.getItem("CURRENT_URL_PARAMS");
+let CURRENT_URL_PARAMS = localStorage.getItem("CURRENT_URL_PARAMS_V2");
 
 let BIBLE_DATA_FOR_CONNECTION_ENGINE = {}; //this info will be sent to other peers when current user chapter is changed and for highlights in the text
 let languageVersionObject = {};
@@ -79,9 +79,9 @@ function setFromURL(url) {
     //if the local storage contains the user's previous url, recursively call this function with that url instead
     setFromURL("#?" + CURRENT_URL_PARAMS);
   } else {
-    //if no params whatsoever, then display Romans 10 in the King James Version
+    //if no params whatsoever, then display John 3 in the World English Bible
     setFromURL(
-      "#?l=English&v=de4e12af7f28f599-01&vn=King%20James%20(Authorised)%20Version&va=engKJV&b=ROM&bn=Romans&c=ROM.10&cn=10"
+      "#?l=English&v=9879dbb7cfe39e4d-01&vn=World%20English%20Bible&va=WEB&b=JHN&bn=John&c=JHN.3&cn=3"
     );
   }
 }
@@ -159,7 +159,7 @@ function setLanguage(language) {
   BIBLE_LANGUAGE = language;
   CURRENT_URL_PARAMS = `l=${BIBLE_LANGUAGE}`;
   history.pushState(null, "", "#?" + CURRENT_URL_PARAMS);
-  localStorage.setItem("CURRENT_URL_PARAMS", CURRENT_URL_PARAMS);
+  localStorage.setItem("CURRENT_URL_PARAMS_V2", CURRENT_URL_PARAMS);
   document.getElementById("languageSelectButton").innerText = BIBLE_LANGUAGE;
   languageSelectButton;
 }
@@ -181,7 +181,7 @@ function setVersion(id, name, abbr) {
   BIBLE_VERSION_ID = id;
   BIBLE_VERSION_ABBR = abbr;
   CURRENT_URL_PARAMS = `l=${BIBLE_LANGUAGE}&v=${BIBLE_VERSION_ID}&vn=${BIBLE_VERSION}&va=${BIBLE_VERSION_ABBR}`;
-  localStorage.setItem("CURRENT_URL_PARAMS", CURRENT_URL_PARAMS);
+  localStorage.setItem("CURRENT_URL_PARAMS_V2", CURRENT_URL_PARAMS);
   history.pushState(null, "", "#?" + CURRENT_URL_PARAMS);
   document.getElementById("versionSelectButton").innerText = BIBLE_VERSION_ABBR;
 }
@@ -220,7 +220,7 @@ function setChapter(bibleVersionID, chapterID, num) {
   BIBLE_DATA_FOR_CONNECTION_ENGINE["chapter"] = BIBLE_CHAPTER + "**" + num;
   CURRENT_URL_PARAMS = `l=${BIBLE_LANGUAGE}&v=${BIBLE_VERSION_ID}&vn=${BIBLE_VERSION}&va=${BIBLE_VERSION_ABBR}&b=${BIBLE_BOOK_ID}&bn=${BIBLE_BOOK_NAME}&c=${BIBLE_CHAPTER}&cn=${BIBLE_CHAPTER_NUM}`;
   history.pushState(null, "", "#?" + CURRENT_URL_PARAMS);
-  localStorage.setItem("CURRENT_URL_PARAMS", CURRENT_URL_PARAMS);
+  localStorage.setItem("CURRENT_URL_PARAMS_V2", CURRENT_URL_PARAMS);
   document.getElementById("chapterSelectButton").innerText = num;
   document.getElementById("mobile-nav-title").innerText =
     BIBLE_BOOK_NAME + " " + BIBLE_CHAPTER_NUM;
