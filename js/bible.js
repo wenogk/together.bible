@@ -485,33 +485,34 @@ function getChapterText(bibleVersionID, bibleChapterID) {
 
 function getSectionArray(bibleVersionID, bibleChapterID) {
   let elem = document.createElement("div");
-  let textVal = getChapterText(bibleVersionID, bibleChapterID);
-  console.log("getSectionArray chapter call: " + textVal);
-  elem.innerHTML = textVal;
-  var sections = elem.children;
-  //console.log(children);
-  let sectionArray = [];
-  for (var j = 0; j < sections.length; j++) {
-    let singleSection = {};
-    var verses = sections[j].children;
-    let verseCounter = 1;
-    let isFirstVerseSet = false;
-    for (var i = 0; i < verses.length; i++) {
-      if (verses[i].nodeName.toLowerCase() === "span") {
-        let verseNumber = verses[i].getAttribute("data-number");
-        if (typeof verseNumber == "string" && verseNumber.length) {
-          if (!isFirstVerseSet) {
-            verseCounter = parseInt(verseNumber);
-            singleSection["firstVerse"] = verseCounter;
-            isFirstVerseSet = true;
+  getChapterText(bibleVersionID, bibleChapterID).then((textVal) => {
+    console.log("getSectionArray chapter call: " + textVal);
+    elem.innerHTML = textVal;
+    var sections = elem.children;
+    //console.log(children);
+    let sectionArray = [];
+    for (var j = 0; j < sections.length; j++) {
+      let singleSection = {};
+      var verses = sections[j].children;
+      let verseCounter = 1;
+      let isFirstVerseSet = false;
+      for (var i = 0; i < verses.length; i++) {
+        if (verses[i].nodeName.toLowerCase() === "span") {
+          let verseNumber = verses[i].getAttribute("data-number");
+          if (typeof verseNumber == "string" && verseNumber.length) {
+            if (!isFirstVerseSet) {
+              verseCounter = parseInt(verseNumber);
+              singleSection["firstVerse"] = verseCounter;
+              isFirstVerseSet = true;
+            }
+            //console.log("verse " + verseNumber);
+            verseCounter += 1;
           }
-          //console.log("verse " + verseNumber);
-          verseCounter += 1;
         }
       }
+      singleSection["lastVerse"] = verseCounter - 1;
+      sectionArray.push(singleSection);
     }
-    singleSection["lastVerse"] = verseCounter - 1;
-    sectionArray.push(singleSection);
-  }
-  return sectionArray;
+    return sectionArray;
+  });
 }
