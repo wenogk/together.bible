@@ -2,8 +2,6 @@
 
 let FULL_NKJV = ``;
 
-
-
 function nkjvGetBooksHandler() {
   const bookListElement = document.querySelector(`#bible-book-list`);
   bookListElement.innerHTML = "";
@@ -196,6 +194,41 @@ function nkjvBookNameToAPIBookID(n) {
     case "Revelation":
       return "";
     default:
-    return n;
+      return n;
+  }
+}
+
+function shouldIgnoreBook(n) {
+  switch (n) {
+    case "1ES":
+      return false;
+    case "2ES":
+      return false;
+    case "TOB":
+      return false;
+    case "JDT":
+      return false;
+    case "ESG":
+      return false;
+    case "WIS":
+      return false;
+    case "SIR":
+      return false;
+    case "BAR":
+      return false;
+    case "S3Y":
+      return false;
+    case "SUS":
+      return false;
+    case "BEL":
+      return false;
+    case "MAN":
+      return false;
+    case "1MA":
+      return false;
+    case "2MA":
+      return false;
+    default:
+      return true;
   }
 }
