@@ -34,7 +34,7 @@ function nkjvGetTextByChapter(bookIndex, chapterIndex) {
   let bookNameNKJV = FULL_NKJV["books"][bookIndex].name;
   console.log("chapterIndex - " + chapterIndex);
   let chapterID =
-    nkjvBookNameToAPIBookID(bookName) + "." + (parseInt(chapterIndex) + 1);
+    nkjvBookNameToAPIBookID(bookNameNKJV) + "." + (parseInt(chapterIndex) + 1);
   console.log("chapterID - " + chapterID);
   console.log(getSectionArray("de4e12af7f28f599-01", chapterID));
   return text;
