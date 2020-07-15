@@ -65,7 +65,7 @@ window.addEventListener("load", function () {
         */
         for (let book of bookList) {
           if (shouldIgnoreBook(book.id)) {
-            index += 1;
+            console.log("ignored " + book.id);
             continue;
           }
           let bookIDAPI = book.id;
