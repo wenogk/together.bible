@@ -485,7 +485,9 @@ function getChapterText(bibleVersionID, bibleChapterID) {
 
 function getSectionArray(bibleVersionID, bibleChapterID) {
   let elem = document.createElement("div");
-  elem.innerHTML = getChapterText(bibleVersionID, bibleChapterID);
+  let textVal = getChapterText(bibleVersionID, bibleChapterID);
+  console.log("getSectionArray chapter call: " + textVal);
+  elem.innerHTML = textVal;
   var sections = elem.children;
   //console.log(children);
   let sectionArray = [];
