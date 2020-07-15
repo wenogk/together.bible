@@ -86,6 +86,7 @@ function useSection(sectionArray, versesArray) {
     }
     text += "</p>";
   }
+  return text;
 }
 
 function fetchSectionVerses(bookName, chapterIndex) {
